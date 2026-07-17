@@ -60,12 +60,15 @@
   /* ================= MAIN CONTENT LAYOUT ================= */
   main { position: relative; z-index: 1; width: 100%; max-width: 920px; margin: 0 auto; padding: 130px 4vw 60px; flex-grow: 1; }
   
-  .page-title { font-family: 'Noto Serif Thai', serif; font-size: 2.1rem; color: var(--white); text-align: center; margin-bottom: 40px; font-weight: 700; }
+  /* หัวข้อหน้าเพจ (ปรับรูปแบบให้เหมือน Education) */
+  .page-header { text-align: center; margin-bottom: 50px; }
+  .page-title { font-family: 'Noto Serif Thai', serif; font-size: 2.1rem; color: var(--white); font-weight: 700; margin-bottom: 8px; }
+  .page-subtitle { font-size: 0.95rem; color: var(--silver); font-weight: 300; letter-spacing: 0.5px; }
 
   /* โครงสร้างแบบกริดแบ่ง ซ้าย-ขวา */
   .profile-grid { display: grid; grid-template-columns: 280px 1fr; gap: 35px; align-items: start; }
 
-  /* ================= ฝั่งซ้าย: กล่องใส่รูป (สีเข้มคมชัดและจัดกลางในจอมือถือ) ================= */
+  /* ================= ฝั่งซ้าย: กล่องใส่รูปโปรไฟล์ ================= */
   .profile-left { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
   
   .photo-frame {
@@ -253,14 +256,18 @@
 </nav>
 
 <main>
-  <h1 class="page-title">ประวัติส่วนตัว</h1>
+  <!-- ปรับสไตล์ส่วนหัวข้อและคำโปรยใหม่ให้คุมโทนเดียวกัน -->
+  <div class="page-header">
+    <h1 class="page-title">ประวัติส่วนตัว</h1>
+    <p class="page-subtitle">ทำความรู้จักตัวตน ความมุ่งมั่น และเป้าหมายการเดินทางสายบริหารธุรกิจและการพัฒนาทักษะชีวิต</p>
+  </div>
 
   <div class="profile-grid">
     
-    <!-- ฝั่งซ้าย: กล่องใส่รูปโปรไฟล์ (จัดกึ่งกลางสวยงาม ลบขยะและข้อความที่ล้นข้างหลังออกหมดจด) -->
+    <!-- ฝั่งซ้าย: กล่องใส่รูปโปรไฟล์ -->
     <div class="profile-left">
       <div class="photo-frame">
-        <img src="images/IMG_0641. jpeg" alt="อติรุจ">
+        <img src="images/IMG_0641.jpeg" alt="อดิรุจ">
       </div>
     </div>
 
@@ -273,7 +280,7 @@
         <table class="info-table">
           <tr>
             <td class="info-label">ชื่อ-นามสกุล</td>
-            <td class="info-value">นายอติรุจ ชูพลกรัง</td>
+            <td class="info-value">นายอดิรุจ ชูพลกรัง</td>
           </tr>
           <tr>
             <td class="info-label">ชื่อเล่น</td>
@@ -319,7 +326,7 @@
   </div>
 </main>
 
-<footer class="site-end">© 2569 อติรุจ ชูพลกรัง · เเฟ้มสะสมงานสำหรับสมัครเข้าศึกษาคณะบริหารธุรกิจ</footer>
+<footer class="site-end">© 2569 อดิรุจ ชูพลกรัง · เเฟ้มสะสมผลงานสำหรับสมัครเข้าศึกษาคณะบริหารธุรกิจ</footer>
 
 <!-- ระบบเมืองและเอฟเฟกต์ -->
 <script>
