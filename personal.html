@@ -1,0 +1,19 @@
+<!-- คัดลอกโค้ดนี้ไปใส่ต่อท้ายเนื้อหาในไฟล์ personal.html ก่อนปิดแท็ก </main> -->
+<style>
+  .nav-button-container { display: flex; justify-content: center; align-items: center; gap: 24px; margin: 60px auto 40px; width: 100%; max-width: 520px; padding: 0 20px; position: relative; z-index: 10; }
+  .btn-nav { flex: 1; text-align: center; padding: 14px 30px; border-radius: 999px; font-size: 0.95rem; font-weight: 500; text-decoration: none; letter-spacing: 0.5px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; }
+  .btn-primary { background: linear-gradient(135deg, #F3E3B8 0%, #E4D09B 100%); color: #030B18; box-shadow: 0 4px 15px rgba(243, 227, 184, 0.2), 0 0 0 1px rgba(243, 227, 184, 0.1); }
+  .btn-primary::after { content: '→'; font-weight: bold; transition: transform 0.2s; }
+  .btn-primary:hover { transform: translateY(-4px); background: #FFFFFF; color: #030B18; box-shadow: 0 12px 28px rgba(243, 227, 184, 0.45), 0 0 20px rgba(243, 227, 184, 0.2); }
+  .btn-primary:hover::after { transform: translateX(4px); }
+  .btn-secondary { background: rgba(255, 255, 255, 0.05); color: #D8E9F5; border: 1px solid rgba(216, 233, 245, 0.25); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
+  .btn-secondary::before { content: '←'; font-weight: bold; transition: transform 0.2s; }
+  .btn-secondary:hover { transform: translateY(-4px); background: rgba(255, 255, 255, 0.15); color: #FFFFFF; border-color: rgba(216, 233, 245, 0.6); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 0 15px rgba(216, 233, 245, 0.1); }
+  .btn-secondary:hover::before { transform: translateX(-4px); }
+  @media (max-width: 480px) { .nav-button-container { gap: 12px; margin-top: 45px; } .btn-nav { padding: 12px 20px; font-size: 0.88rem; } }
+</style>
+
+<div class="nav-button-container">
+  <a href="index.html" class="btn-nav btn-secondary">ย้อนกลับ</a>
+  <a href="education.html" class="btn-nav btn-primary">ถัดไป</a>
+</div>
