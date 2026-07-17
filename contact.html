@@ -10,8 +10,8 @@
 <style>
   :root {
     --night-top: #030B18; --night-mid: #0B2545; --night-low: #163A63;
-    --steel: #3A6EA5; --frost: #D8E9F5; --ice: #F4F9FD;
-    --white: #FFFFFF; --gold: #F3E3B8; --silver: #A9BFD6;
+    --steel: #3A6EA5; --frost: #F0F7FD; --ice: #F4F9FD;
+    --white: #FFFFFF; --gold: #FFEAA7; --silver: #D1E2F2;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior: smooth; }
@@ -20,7 +20,7 @@
     overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between;
   }
   
-  /* ================= SKY & EFFECTS (แบบเดิมเป๊ะ) ================= */
+  /* ================= SKY & EFFECTS ================= */
   .sky { position: fixed; inset: 0; z-index: -6; background: linear-gradient(180deg, var(--night-top) 0%, var(--night-mid) 55%, var(--night-low) 100%); background-size: 100% 220%; animation: skyDrift 26s ease-in-out infinite; }
   @keyframes skyDrift { 0%,100% { background-position: 0% 0%; } 50% { background-position: 0% 30%; } }
   .stars { position: fixed; inset: 0; z-index: -5; background-image: radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,.9), transparent 60%), radial-gradient(1px 1px at 28% 8%, rgba(255,255,255,.7), transparent 60%), radial-gradient(1.5px 1.5px at 44% 26%, rgba(255,255,255,.8), transparent 60%), radial-gradient(1.5px 1.5px at 77% 22%, rgba(255,255,255,.9), transparent 60%), radial-gradient(1px 1px at 53% 38%, rgba(255,255,255,.7), transparent 60%); opacity: 0.8; animation: twinkle 5s ease-in-out infinite alternate; }
@@ -28,10 +28,10 @@
   .ground-mist { position: fixed; left: 0; right: 0; bottom: 0; height: 18vh; z-index: -2; background: linear-gradient(180deg, transparent, rgba(216,233,245,0.18)); pointer-events: none; }
   canvas#snow { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
-  /* ================= MOON DESIGN (แบบเดิมเป๊ะ) ================= */
+  /* ================= MOON DESIGN ================= */
   .moon { position: fixed; top: 18vh; right: 10vw; width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #FFFDF6 0%, #FDF4CD 45%, #EAD397 100%); box-shadow: 0 0 35px 8px rgba(243, 227, 184, 0.45), inset -10px -10px 25px rgba(0,0,0,0.12); z-index: -3; }
 
-  /* ================= SKYLINE (แบบเดิมเป๊ะ) ================= */
+  /* ================= SKYLINE ================= */
   .skyline { position: fixed; left: 0; right: 0; bottom: 0; height: 62vh; z-index: -4; pointer-events: none; }
   .layer { position: absolute; left: -6%; right: -6%; bottom: 0; display: flex; align-items: flex-end; gap: 2vw; transition: transform 0.6s ease-out; }
   .layer-far { opacity: 0.55; filter: blur(0.4px); } .layer-mid { opacity: 0.8; } .layer-near { opacity: 1; }
@@ -47,7 +47,7 @@
   @keyframes neonPulse { 0%, 100% { opacity: 0.95; filter: brightness(1); } 45% { opacity: 0.55; filter: brightness(0.85); } 50% { opacity: 1; filter: brightness(1.2); } 78%{ opacity: 0.7; } }
 
   /* ================= NAVIGATION BAR ================= */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 22px 6vw; background: rgba(3, 11, 24, 0.35); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 22px 6vw; background: rgba(3, 11, 24, 0.45); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
   .brand { font-family: 'Noto Serif Thai', serif; font-weight: 600; color: var(--white); font-size: 1.05rem; }
   .brand span { color: var(--gold); font-weight: 400; }
   .nav-links { display:flex; gap: 30px; list-style:none; }
@@ -58,76 +58,82 @@
   .nav-toggle { display:none; background:none; border:none; color:var(--white); font-size:1.6rem; cursor:pointer; }
 
   /* ================= MAIN CONTENT LAYOUT ================= */
-  main { position: relative; z-index: 1; width: 100%; max-width: 850px; margin: 0 auto; padding: 140px 6vw 60px; flex-grow: 1; text-align: center; }
+  main { position: relative; z-index: 1; width: 100%; max-width: 860px; margin: 0 auto; padding: 130px 4vw 60px; flex-grow: 1; }
   
-  .title-area { text-align: left; margin-bottom: 35px; }
-  .page-tag { font-size: 0.8rem; color: var(--gold); letter-spacing: 2px; font-weight: 600; text-transform: uppercase; margin-bottom: 6px; display: block; }
-  .page-title { font-family: 'Noto Serif Thai', serif; color: var(--white); font-size: 2.2rem; font-weight: 700; }
-
-  /* ================= NEW TEXT BOXES (กล่องครอบข้อความ) ================= */
-  .text-box-wrapper {
-    background: rgba(11, 37, 69, 0.35);
-    border: 1px solid rgba(216, 233, 245, 0.12);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 14px;
-    padding: 20px 25px;
-    margin-bottom: 40px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-    display: inline-block;
-    text-align: center;
-    max-width: 90%;
+  /* กล่องครอบหัวข้อเกริ่นนำสีเข้มเด่นชัด (เหมือนหน้าการศึกษา) */
+  .header-box {
+    background: rgba(3, 11, 24, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 16px;
+    padding: 26px 30px;
+    margin-bottom: 35px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.5);
   }
-  .page-subtitle { color: var(--frost); font-size: 0.96rem; line-height: 1.6; }
-  .thank-you-desc { color: var(--silver); font-size: 0.92rem; line-height: 1.6; }
+  .page-category { color: var(--gold); font-size: 0.85rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+  .page-title { font-family: 'Noto Serif Thai', serif; color: var(--white); font-size: 2.1rem; font-weight: 700; margin-bottom: 8px; }
+  .page-subtitle { color: var(--silver); font-size: 0.95rem; line-height: 1.6; }
 
-  /* ================= NEW CONTACT GRID LAYOUT (บน 2 ล่าง 2) ================= */
+  /* ================= CONTACT CARDS SYSTEM (โทนสีทึบคมชัดเหมือนการศึกษา) ================= */
   .contact-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
-    margin-bottom: 45px;
-    text-align: left;
-  }
-  .contact-card {
-    background: rgba(11, 37, 69, 0.45);
-    border: 1px solid rgba(216, 233, 245, 0.15);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 16px;
-    padding: 24px 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    text-align: center;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-  }
-  .contact-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(243, 227, 184, 0.3);
-  }
-  .contact-label {
-    font-size: 0.76rem;
-    font-weight: 600;
-    color: var(--gold);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .contact-value {
-    color: var(--white);
-    font-size: 1.1rem;
-    font-weight: 500;
-    word-break: break-all;
+    margin-bottom: 40px;
   }
 
-  /* ================= NAVIGATION BUTTONS ================= */
+  .contact-card {
+    background: rgba(3, 11, 24, 0.9); /* สีเข้มพิเศษทึบแสง 90% ของหน้าประวัติการศึกษา */
+    border: 1px solid rgba(255, 234, 167, 0.25);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: center;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .contact-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 234, 167, 0.6);
+    box-shadow: 0 12px 38px rgba(255, 234, 167, 0.2);
+  }
+
+  .contact-label {
+    font-size: 0.8rem;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .contact-value {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--white);
+    text-decoration: none;
+    word-break: break-all;
+    transition: color 0.25s ease;
+  }
+  
+  /* เอฟเฟกต์โฮเวอร์สำหรับข้อมูลติดต่อที่เป็นลิงก์ได้ */
+  a.contact-value:hover {
+    color: var(--gold);
+    text-shadow: 0 0 8px rgba(255, 234, 167, 0.4);
+  }
+
+  /* ================= BUTTONS NAVIGATION ================= */
   .nav-button-container {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 24px;
-    margin: 30px auto 20px;
+    margin: 45px auto 10px;
     width: 100%;
-    max-width: 320px;
+    max-width: 520px;
+    padding: 0 20px;
     position: relative;
     z-index: 10;
   }
@@ -147,6 +153,20 @@
     gap: 8px;
     white-space: nowrap;
   }
+  .btn-primary {
+    background: linear-gradient(135deg, #FFEAA7 0%, #E4D09B 100%);
+    color: #030B18;
+    box-shadow: 0 4px 15px rgba(255, 234, 167, 0.2), 0 0 0 1px rgba(255, 234, 167, 0.1);
+  }
+  .btn-primary::after { content: '→'; font-weight: bold; transition: transform 0.2s; }
+  .btn-primary:hover {
+    transform: translateY(-4px);
+    background: #FFFFFF;
+    color: #030B18;
+    box-shadow: 0 12px 28px rgba(255, 234, 167, 0.45), 0 0 20px rgba(255, 234, 167, 0.2);
+  }
+  .btn-primary:hover::after { transform: translateX(4px); }
+  
   .btn-secondary {
     background: rgba(255, 255, 255, 0.05);
     color: #D8E9F5;
@@ -163,16 +183,20 @@
   }
   .btn-secondary:hover::before { transform: translateX(-4px); }
 
-  footer.site-end { text-align: center; padding: 20px 6vw 20px; font-size: 0.76rem; color: rgba(216,233,245,0.4); position: relative; z-index: 1; }
+  footer.site-end { text-align: center; padding: 20px 6vw; font-size: 0.76rem; color: rgba(216,233,245,0.4); position: relative; z-index: 1; }
 
-  /* Responsive Design สำหรับหน้าจอเล็ก */
+  /* Responsive Design */
   @media (max-width: 860px) {
     .nav-links { position: fixed; top:0; right:0; height:100vh; width:70vw; background: rgba(3,11,24,0.97); flex-direction: column; justify-content:center; align-items:flex-start; padding: 40px; gap: 26px; transform: translateX(100%); transition: transform 0.35s ease; }
     .nav-links.open { transform: translateX(0); } .nav-toggle { display:block; }
     .moon { width: 90px; height: 90px; top: 14vh; right: 6vw; }
+    .contact-grid { grid-template-columns: 1fr; gap: 20px; }
   }
-  @media (max-width: 600px) {
-    .contact-grid { grid-template-columns: 1fr; gap: 16px; }
+  @media (max-width: 480px) {
+    .header-box { padding: 18px 20px; }
+    .contact-card { padding: 22px 18px; }
+    .contact-value { font-size: 1.1rem; }
+    .nav-button-container { gap: 12px; margin-top: 35px; }
     .btn-nav { padding: 12px 20px; font-size: 0.88rem; }
   }
 </style>
@@ -189,7 +213,7 @@
 <div class="ground-mist"></div><canvas id="snow"></canvas>
 
 <nav>
-  <div class="brand">PORTFOLIO<span> · ADIRAD</span></div>
+  <div class="brand">PORTFOLIO<span> · ADIRUS</span></div>
   <ul class="nav-links" id="navLinks">
     <li><a href="index.html">หน้าแรก</a></li>
     <li><a href="personal.html">เกี่ยวกับฉัน</a></li>
@@ -201,57 +225,52 @@
 </nav>
 
 <main>
-  <div class="title-area">
-    <span class="page-tag">Contact</span>
-    <h1 class="page-title">ช่องทางติดต่อ</h1>
+  <!-- กล่องหัวข้อดีไซน์สีเข้มเหมือนประวัติการศึกษา -->
+  <div class="header-box">
+    <div class="page-category">Contact</div>
+    <h1 class="page-title">ช่องทางการติดต่อ</h1>
+    <p class="page-subtitle">สนใจสอบถามข้อมูลเกี่ยวกับผลงานหรือต้องการสอบถามรายละเอียดเพิ่มเติม สามารถติดต่อได้โดยตรงผ่านช่องทางด้านล่างนี้ได้เลยครับ</p>
   </div>
 
-  <!-- กล่องข้อความครอบเกริ่นนำด้านบน -->
-  <div class="text-box-wrapper">
-    <p class="page-subtitle">สนใจสอบถามเกี่ยวกับผลงานหรือต้องการการติดต่อเพิ่มเติม สามารถติดต่อผ่านช่องทางด้านล่างนี้ได้เลยครับ</p>
-  </div>
-
-  <!-- การ์ดแบ่งบน 2 ล่าง 2 -->
+  <!-- ตารางกริดกล่องช่องทางติดต่อ สีทึบเด่นชัดและเป็นระเบียบ -->
   <div class="contact-grid">
-    <!-- แถวบน กล่องที่ 1 -->
+    
+    <!-- 1. EMAIL -->
     <div class="contact-card">
       <div class="contact-label">Email</div>
-      <div class="contact-value">adirud51@gmail.com</div>
+      <a href="mailto:adirud51@gmail.com" class="contact-value">adirud51@gmail.com</a>
     </div>
 
-    <!-- แถวบน กล่องที่ 2 -->
+    <!-- 2. PHONE -->
     <div class="contact-card">
       <div class="contact-label">Phone</div>
-      <div class="contact-value">090-947-3479</div>
+      <a href="tel:090-947-3479" class="contact-value">090-947-3479</a>
     </div>
 
-    <!-- แถวล่าง กล่องที่ 3 -->
+    <!-- 3. INSTAGRAM -->
     <div class="contact-card">
       <div class="contact-label">Instagram</div>
-      <div class="contact-value">@adiruss_bs</div>
+      <a href="https://instagram.com/adiruss_bs" target="_blank" class="contact-value">@adiruss_bs</a>
     </div>
 
-    <!-- แถวล่าง กล่องที่ 4 -->
+    <!-- 4. FACEBOOK -->
     <div class="contact-card">
       <div class="contact-label">Facebook</div>
-      <div class="contact-value">คุณ อดิรุจ.ฯ</div>
+      <a href="https://facebook.com" target="_blank" class="contact-value">คุณ อติรุจ.ฯ</a>
     </div>
+
   </div>
 
-  <!-- กล่องข้อความครอบขอบคุณด้านล่าง -->
-  <div class="text-box-wrapper">
-    <p class="thank-you-desc">ขอบคุณที่แวะมาชมพอร์ตโฟลิโอของฉันนะคะ หากมีคำถามเกี่ยวกับการเรียน ยินดีตอบทุกข้อความค่ะ ❄️</p>
-  </div>
-
-  <!-- ปุ่มนำทางย้อนกลับ -->
+  <!-- ปุ่มนำทาง -->
   <div class="nav-button-container">
     <a href="activities.html" class="btn-nav btn-secondary">ย้อนกลับ</a>
+    <a href="index.html" class="btn-nav btn-primary">หน้าแรก</a>
   </div>
 </main>
 
-<footer class="site-end">© 2569 ณัฐชนน · พอร์ตโฟลิโอสำหรับสมัครเข้าศึกษาคณะบริหารธุรกิจ</footer>
+<footer class="site-end">© 2569 อติรุจ ชูพลกรัง · เเฟ้มสะสมผลงานสำหรับสมัครเข้าศึกษาคณะบริหารธุรกิจ</footer>
 
-<!-- ระบบเมืองและเอฟเฟกต์ (แบบเดิมเป๊ะ) -->
+<!-- ระบบเมืองและเอฟเฟกต์ -->
 <script>
   const navToggle = document.getElementById('navToggle'); const navLinks = document.getElementById('navLinks');
   navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
