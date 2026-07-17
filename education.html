@@ -10,8 +10,8 @@
 <style>
   :root {
     --night-top: #030B18; --night-mid: #0B2545; --night-low: #163A63;
-    --steel: #3A6EA5; --frost: #D8E9F5; --ice: #F4F9FD;
-    --white: #FFFFFF; --gold: #F3E3B8; --silver: #A9BFD6;
+    --steel: #3A6EA5; --frost: #E8F4FD; --ice: #F4F9FD;
+    --white: #FFFFFF; --gold: #FBE6B5; --silver: #C2D5E7;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior: smooth; }
@@ -20,7 +20,7 @@
     overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between;
   }
   
-  /* ================= SKY & EFFECTS (แบบเดิมเป๊ะ) ================= */
+  /* ================= SKY & EFFECTS (แบบเดิม) ================= */
   .sky { position: fixed; inset: 0; z-index: -6; background: linear-gradient(180deg, var(--night-top) 0%, var(--night-mid) 55%, var(--night-low) 100%); background-size: 100% 220%; animation: skyDrift 26s ease-in-out infinite; }
   @keyframes skyDrift { 0%,100% { background-position: 0% 0%; } 50% { background-position: 0% 30%; } }
   .stars { position: fixed; inset: 0; z-index: -5; background-image: radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,.9), transparent 60%), radial-gradient(1px 1px at 28% 8%, rgba(255,255,255,.7), transparent 60%), radial-gradient(1.5px 1.5px at 44% 26%, rgba(255,255,255,.8), transparent 60%), radial-gradient(1.5px 1.5px at 77% 22%, rgba(255,255,255,.9), transparent 60%), radial-gradient(1px 1px at 53% 38%, rgba(255,255,255,.7), transparent 60%); opacity: 0.8; animation: twinkle 5s ease-in-out infinite alternate; }
@@ -28,10 +28,10 @@
   .ground-mist { position: fixed; left: 0; right: 0; bottom: 0; height: 18vh; z-index: -2; background: linear-gradient(180deg, transparent, rgba(216,233,245,0.18)); pointer-events: none; }
   canvas#snow { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
-  /* ================= MOON DESIGN (แบบเดิมเป๊ะ) ================= */
+  /* ================= MOON DESIGN (แบบเดิม) ================= */
   .moon { position: fixed; top: 18vh; right: 10vw; width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #FFFDF6 0%, #FDF4CD 45%, #EAD397 100%); box-shadow: 0 0 35px 8px rgba(243, 227, 184, 0.45), inset -10px -10px 25px rgba(0,0,0,0.12); z-index: -3; }
 
-  /* ================= SKYLINE (แบบเดิมเป๊ะ) ================= */
+  /* ================= SKYLINE (แบบเดิม) ================= */
   .skyline { position: fixed; left: 0; right: 0; bottom: 0; height: 62vh; z-index: -4; pointer-events: none; }
   .layer { position: absolute; left: -6%; right: -6%; bottom: 0; display: flex; align-items: flex-end; gap: 2vw; transition: transform 0.6s ease-out; }
   .layer-far { opacity: 0.55; filter: blur(0.4px); } .layer-mid { opacity: 0.8; } .layer-near { opacity: 1; }
@@ -47,7 +47,7 @@
   @keyframes neonPulse { 0%, 100% { opacity: 0.95; filter: brightness(1); } 45% { opacity: 0.55; filter: brightness(0.85); } 50% { opacity: 1; filter: brightness(1.2); } 78%{ opacity: 0.7; } }
 
   /* ================= NAVIGATION BAR ================= */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 22px 6vw; background: rgba(3, 11, 24, 0.35); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 22px 6vw; background: rgba(3, 11, 24, 0.45); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
   .brand { font-family: 'Noto Serif Thai', serif; font-weight: 600; color: var(--white); font-size: 1.05rem; }
   .brand span { color: var(--gold); font-weight: 400; }
   .nav-links { display:flex; gap: 30px; list-style:none; }
@@ -58,24 +58,54 @@
   .nav-toggle { display:none; background:none; border:none; color:var(--white); font-size:1.6rem; cursor:pointer; }
 
   /* ================= MAIN CONTENT LAYOUT ================= */
-  main { position: relative; z-index: 1; width: 100%; max-width: 900px; margin: 0 auto; padding: 140px 6vw 60px; flex-grow: 1; }
-  .page-title { font-family: 'Noto Serif Thai', serif; color: var(--white); font-size: 2.2rem; font-weight: 700; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-  .page-subtitle { color: var(--silver); font-size: 1rem; margin-bottom: 50px; }
-
-  /* ================= TIMELINE SYSTEM (เรียงจากเก่าไปใหม่) ================= */
-  .timeline { position: relative; border-left: 2px solid rgba(216,233,245,0.25); margin-left: 10px; padding-left: 35px; }
+  main { position: relative; z-index: 1; width: 100%; max-width: 860px; margin: 0 auto; padding: 130px 4vw 60px; flex-grow: 1; }
   
-  .timeline-item { position: relative; margin-bottom: 45px; }
+  /* กล่องครอบข้อความหัวข้อด้านบน */
+  .header-box {
+    background: rgba(4, 15, 33, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 24px 30px;
+    margin-bottom: 35px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+  .page-title { font-family: 'Noto Serif Thai', serif; color: var(--white); font-size: 2.1rem; font-weight: 700; margin-bottom: 6px; }
+  .page-subtitle { color: var(--silver); font-size: 0.95rem; }
+
+  /* ================= TIMELINE SYSTEM (พร้อมกล่องข้อความทึบแสงอ่านง่าย) ================= */
+  .timeline { position: relative; border-left: 3px solid rgba(251, 230, 181, 0.4); margin-left: 15px; padding-left: 35px; }
+  
+  .timeline-item { position: relative; margin-bottom: 30px; }
   .timeline-item:last-child { margin-bottom: 10px; }
   
   /* วงกลมบนเส้น Timeline */
-  .timeline-dot { position: absolute; left: -46px; top: 4px; width: 20px; height: 20px; border-radius: 50%; background: var(--night-mid); border: 2px solid var(--gold); box-shadow: 0 0 10px rgba(243,227,184,0.6); transition: all 0.3s ease; }
-  .timeline-item:hover .timeline-dot { background: var(--gold); transform: scale(1.15); }
+  .timeline-dot { position: absolute; left: -47px; top: 22px; width: 20px; height: 20px; border-radius: 50%; background: var(--night-mid); border: 3.5px solid var(--gold); box-shadow: 0 0 12px rgba(251, 230, 181, 0.8); transition: all 0.3s ease; z-index: 2; }
+  .timeline-item:hover .timeline-dot { background: var(--gold); transform: scale(1.2); }
   
-  .timeline-year { font-size: 0.88rem; color: var(--gold); font-weight: 600; margin-bottom: 6px; letter-spacing: 0.5px; }
-  .timeline-title { font-size: 1.22rem; font-weight: 600; color: var(--white); margin-bottom: 8px; }
-  .timeline-school { font-size: 0.92rem; color: var(--silver); margin-bottom: 6px; font-weight: 400; }
-  .timeline-desc { font-size: 0.9rem; color: var(--frost); line-height: 1.6; }
+  /* กล่องข้อความครอบเนื้อหาการเรียนเพื่อความชัดเจนสูง */
+  .timeline-card {
+    background: rgba(5, 20, 43, 0.82); /* เพิ่มความทึบแสงเป็นพิเศษให้อ่านข้อความชัดเจน */
+    border: 1px solid rgba(251, 230, 181, 0.2);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 16px;
+    padding: 24px 28px;
+    box-shadow: 0 10px 32px rgba(0,0,0,0.45);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .timeline-card:hover {
+    transform: translateX(6px);
+    border-color: rgba(251, 230, 181, 0.5);
+    box-shadow: 0 12px 35px rgba(251, 230, 181, 0.15);
+  }
+
+  .timeline-year { font-size: 0.9rem; color: var(--gold); font-weight: 700; margin-bottom: 6px; letter-spacing: 0.5px; }
+  .timeline-title { font-size: 1.25rem; font-weight: 600; color: var(--white); margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+  .timeline-school { font-size: 0.95rem; color: #9AB7D3; margin-bottom: 8px; font-weight: 500; }
+  .timeline-gpa { display: inline-block; background: rgba(251, 230, 181, 0.12); color: var(--gold); padding: 3px 10px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; margin-bottom: 12px; border: 1px solid rgba(251, 230, 181, 0.25); }
+  .timeline-desc { font-size: 0.92rem; color: var(--frost); line-height: 1.6; }
 
   /* ================= BUTTONS NAVIGATION ================= */
   .nav-button-container {
@@ -83,7 +113,7 @@
     justify-content: center;
     align-items: center;
     gap: 24px;
-    margin: 60px auto 20px;
+    margin: 45px auto 10px;
     width: 100%;
     max-width: 520px;
     padding: 0 20px;
@@ -136,16 +166,20 @@
   }
   .btn-secondary:hover::before { transform: translateX(-4px); }
 
-  footer.site-end { text-align: center; padding: 20px 6vw 20px; font-size: 0.76rem; color: rgba(216,233,245,0.4); position: relative; z-index: 1; }
+  footer.site-end { text-align: center; padding: 20px 6vw; font-size: 0.76rem; color: rgba(216,233,245,0.4); position: relative; z-index: 1; }
 
   /* Responsive Design */
   @media (max-width: 860px) {
     .nav-links { position: fixed; top:0; right:0; height:100vh; width:70vw; background: rgba(3,11,24,0.97); flex-direction: column; justify-content:center; align-items:flex-start; padding: 40px; gap: 26px; transform: translateX(100%); transition: transform 0.35s ease; }
     .nav-links.open { transform: translateX(0); } .nav-toggle { display:block; }
     .moon { width: 90px; height: 90px; top: 14vh; right: 6vw; }
+    .timeline { padding-left: 20px; }
+    .timeline-dot { left: -32px; }
   }
   @media (max-width: 480px) {
-    .nav-button-container { gap: 12px; margin-top: 45px; }
+    .header-box { padding: 18px 20px; }
+    .timeline-card { padding: 18px 20px; }
+    .nav-button-container { gap: 12px; margin-top: 35px; }
     .btn-nav { padding: 12px 20px; font-size: 0.88rem; }
   }
 </style>
@@ -174,36 +208,48 @@
 </nav>
 
 <main>
-  <h1 class="page-title">ประวัติการศึกษา</h1>
-  <p class="page-subtitle">เส้นทางการเรียนรู้ตั้งแต่อดีตจนถึงปัจจุบัน</p>
+  <!-- ส่วนหัวข้อที่ปรับใส่กล่องครอบให้อ่านง่ายเด่นชัดขึ้น -->
+  <div class="header-box">
+    <h1 class="page-title">ประวัติการศึกษา</h1>
+    <p class="page-subtitle">เส้นทางการเรียนรู้ตั้งแต่อดีตจนถึงปัจจุบัน เพื่อปูฐานความรู้ที่แข็งแกร่ง</p>
+  </div>
 
-  <!-- TIMELINE เรียงจากประถมไปจนถึงมัธยมปลาย -->
+  <!-- TIMELINE เรียงจากประถมไปจนถึงมัธยมปลาย พร้อมกล่องครอบข้อความ -->
   <div class="timeline">
     
     <!-- 1. ระดับประถมศึกษา -->
     <div class="timeline-item">
       <div class="timeline-dot"></div>
-      <div class="timeline-year">2557 – 2562</div>
-      <h3 class="timeline-title">ระดับประถมศึกษา (ป.1 - ป.6)</h3>
-      <div class="timeline-school">โรงเรียนวัดเซิดสำราญ</div>
-      
+      <div class="timeline-card">
+        <div class="timeline-year">2557 – 2562</div>
+        <h3 class="timeline-title">ระดับประถมศึกษา (ป.1 - ป.6)</h3>
+        <div class="timeline-school">โรงเรียนวัดเชิดสำราญ</div>
+        <p class="timeline-desc">เริ่มต้นจุดประกายความรู้ ค้นหาทักษะรอบตัว และสนุกกับการเรียนรู้สิ่งใหม่ ๆ ร่วมกับเพื่อน ๆ และอาจารย์ผู้สอน</p>
+      </div>
+    </div>
 
     <!-- 2. ระดับมัธยมศึกษาตอนต้น -->
     <div class="timeline-item">
       <div class="timeline-dot"></div>
-      <div class="timeline-year">2563 – 2566</div>
-      <h3 class="timeline-title">ระดับมัธยมศึกษาตอนต้น (ม.1 - ม.3)</h3>
-      <div class="timeline-school">โรงเรียนพานทอง · เเผนการเรียน วิทยาศาสตร์ - คณิตศาสตร์</div>
-      <p class="timeline-desc">GPAX: 3.60</p>
+      <div class="timeline-card">
+        <div class="timeline-year">2563 – 2566</div>
+        <h3 class="timeline-title">ระดับมัธยมศึกษาตอนต้น (ม.1 - ม.3)</h3>
+        <div class="timeline-school">โรงเรียนพานทอง · แผนการเรียน วิทยาศาสตร์ - คณิตศาสตร์</div>
+        <div class="timeline-gpa">GPAX: 3.60</div>
+        <p class="timeline-desc">พัฒนาศักยภาพตนเองในกลุ่มวิชาคำนวณและวิทยาศาสตร์ เรียนรู้ทักษะการทำงานร่วมกันเป็นทีม และเสริมสร้างความรับผิดชอบผ่านการเรียนและการทำกิจกรรมโครงงาน</p>
+      </div>
     </div>
 
     <!-- 3. ระดับมัธยมศึกษาตอนปลาย -->
     <div class="timeline-item">
       <div class="timeline-dot"></div>
-      <div class="timeline-year">2567 – ปัจจุบัน</div>
-      <h3 class="timeline-title">ระดับมัธยมศึกษาตอนปลาย (ม.4 - ม.6)</h3>
-      <div class="timeline-school">โรงเรียนพานทอง · แผนการเรียน วิทยาศาสตร์ - คณิตศาสตร์ </div>
-      <p class="timeline-desc">GPAX: 3.53</p>
+      <div class="timeline-card">
+        <div class="timeline-year">2567 – ปัจจุบัน</div>
+        <h3 class="timeline-title">ระดับมัธยมศึกษาตอนปลาย (ม.4 - ม.6)</h3>
+        <div class="timeline-school">โรงเรียนพานทอง · แผนการเรียน วิทยาศาสตร์ - คณิตศาสตร์</div>
+        <div class="timeline-gpa">GPAX: 3.53</div>
+        <p class="timeline-desc">ศึกษาในวิชาคณิตศาสตร์ ภาษาอังกฤษ และวิทยาศาสตร์อย่างเข้มข้น เพื่อต่อยอดกระบวนการคิดวิเคราะห์อย่างเป็นระบบ พร้อมเตรียมความพร้อมเต็มร้อยเพื่อเข้าศึกษาต่อในคณะบริหารธุรกิจระดับมหาวิทยาลัย</p>
+      </div>
     </div>
 
   </div>
@@ -217,7 +263,7 @@
 
 
 
-<!-- ระบบเมืองและเอฟเฟกต์ (แบบเดิมเป๊ะ) -->
+<!-- ระบบเมืองและเอฟเฟกต์ (แบบเดิม) -->
 <script>
   const navToggle = document.getElementById('navToggle'); const navLinks = document.getElementById('navLinks');
   navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
