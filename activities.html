@@ -10,8 +10,8 @@
 <style>
   :root {
     --night-top: #030B18; --night-mid: #0B2545; --night-low: #163A63;
-    --steel: #3A6EA5; --frost: #D8E9F5; --ice: #F4F9FD;
-    --white: #FFFFFF; --gold: #F3E3B8; --silver: #A9BFD6;
+    --steel: #3A6EA5; --frost: #F0F7FD; --ice: #F4F9FD;
+    --white: #FFFFFF; --gold: #FFEAA7; --silver: #D1E2F2;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior: smooth; }
@@ -20,7 +20,7 @@
     overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between;
   }
   
-  /* ================= SKY & EFFECTS (แบบเดิมเป๊ะ) ================= */
+  /* ================= SKY & EFFECTS ================= */
   .sky { position: fixed; inset: 0; z-index: -6; background: linear-gradient(180deg, var(--night-top) 0%, var(--night-mid) 55%, var(--night-low) 100%); background-size: 100% 220%; animation: skyDrift 26s ease-in-out infinite; }
   @keyframes skyDrift { 0%,100% { background-position: 0% 0%; } 50% { background-position: 0% 30%; } }
   .stars { position: fixed; inset: 0; z-index: -5; background-image: radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,.9), transparent 60%), radial-gradient(1px 1px at 28% 8%, rgba(255,255,255,.7), transparent 60%), radial-gradient(1.5px 1.5px at 44% 26%, rgba(255,255,255,.8), transparent 60%), radial-gradient(1.5px 1.5px at 77% 22%, rgba(255,255,255,.9), transparent 60%), radial-gradient(1px 1px at 53% 38%, rgba(255,255,255,.7), transparent 60%); opacity: 0.8; animation: twinkle 5s ease-in-out infinite alternate; }
@@ -28,7 +28,10 @@
   .ground-mist { position: fixed; left: 0; right: 0; bottom: 0; height: 18vh; z-index: -2; background: linear-gradient(180deg, transparent, rgba(216,233,245,0.18)); pointer-events: none; }
   canvas#snow { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
-  /* ================= SKYLINE (แบบเดิมเป๊ะ) ================= */
+  /* ================= MOON DESIGN ================= */
+  .moon { position: fixed; top: 18vh; right: 10vw; width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #FFFDF6 0%, #FDF4CD 45%, #EAD397 100%); box-shadow: 0 0 35px 8px rgba(243, 227, 184, 0.45), inset -10px -10px 25px rgba(0,0,0,0.12); z-index: -3; }
+
+  /* ================= SKYLINE ================= */
   .skyline { position: fixed; left: 0; right: 0; bottom: 0; height: 62vh; z-index: -4; pointer-events: none; }
   .layer { position: absolute; left: -6%; right: -6%; bottom: 0; display: flex; align-items: flex-end; gap: 2vw; transition: transform 0.6s ease-out; }
   .layer-far { opacity: 0.55; filter: blur(0.4px); } .layer-mid { opacity: 0.8; } .layer-near { opacity: 1; }
@@ -44,7 +47,7 @@
   @keyframes neonPulse { 0%, 100% { opacity: 0.95; filter: brightness(1); } 45% { opacity: 0.55; filter: brightness(0.85); } 50% { opacity: 1; filter: brightness(1.2); } 78%{ opacity: 0.7; } }
 
   /* ================= NAVIGATION BAR ================= */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 22px 6vw; background: rgba(3, 11, 24, 0.35); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 22px 6vw; background: rgba(3, 11, 24, 0.45); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
   .brand { font-family: 'Noto Serif Thai', serif; font-weight: 600; color: var(--white); font-size: 1.05rem; }
   .brand span { color: var(--gold); font-weight: 400; }
   .nav-links { display:flex; gap: 30px; list-style:none; }
@@ -55,96 +58,97 @@
   .nav-toggle { display:none; background:none; border:none; color:var(--white); font-size:1.6rem; cursor:pointer; }
 
   /* ================= MAIN CONTENT LAYOUT ================= */
-  main { position: relative; z-index: 1; width: 100%; max-width: 950px; margin: 0 auto; padding: 140px 6vw 60px; flex-grow: 1; }
-  .page-title { font-family: 'Noto Serif Thai', serif; color: var(--white); font-size: 2.2rem; font-weight: 700; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-  .page-subtitle { color: var(--silver); font-size: 1rem; margin-bottom: 40px; }
+  main { position: relative; z-index: 1; width: 100%; max-width: 1000px; margin: 0 auto; padding: 130px 4vw 60px; flex-grow: 1; }
+  
+  /* หัวข้อหน้าเพจ */
+  .page-header { text-align: center; margin-bottom: 50px; }
+  .page-title { font-family: 'Noto Serif Thai', serif; font-size: 2.1rem; color: var(--white); font-weight: 700; margin-bottom: 8px; }
+  .page-subtitle { font-size: 0.95rem; color: var(--silver); font-weight: 300; letter-spacing: 0.5px; }
 
-  /* ================= ACTIVITIES GRID & CARDS ================= */
-  .activities-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-    margin-bottom: 30px;
-  }
-  .act-card {
-    background: rgba(11, 37, 69, 0.4);
-    border: 1px solid rgba(216, 233, 245, 0.15);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+  /* Grid เก็บกล่องผลงาน */
+  .activities-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; align-items: stretch; }
+
+  /* ================= ดีไซน์การ์ดผลงานสีเข้มทึบแสง (สไตล์เดียวกับหน้าการศึกษา) ================= */
+  .activity-card {
+    background: rgba(3, 11, 24, 0.9); /* สีน้ำเงินเข้มทึบแสง 90% */
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-  }
-  .act-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(243, 227, 184, 0.3);
-  }
-  .act-img {
-    width: 100%;
-    height: 200px;
-    background: rgba(3, 11, 24, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border-bottom: 1px solid rgba(216, 233, 245, 0.1);
-    position: relative;
-  }
-  .act-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .act-placeholder {
-    color: var(--silver);
-    font-size: 0.85rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .act-content {
-    padding: 22px;
-    flex-grow: 1;
+    padding: 24px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
-  .act-tag {
+  .activity-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 234, 167, 0.4);
+  }
+
+  /* ส่วนเนื้อหาภายในการ์ด */
+  .card-top { display: flex; flex-direction: column; gap: 16px; }
+
+  /* กรอบรูปถ่ายกิจกรรม */
+  .image-container {
+    width: 100%;
+    height: 220px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(3, 11, 24, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .activity-card:hover .image-container img {
+    transform: scale(1.04);
+  }
+
+  /* ป้ายประเภทกิจกรรม (Badges) */
+  .badge {
     align-self: flex-start;
-    font-size: 0.75rem;
-    background: rgba(243, 227, 184, 0.1);
-    color: var(--gold);
-    padding: 4px 10px;
-    border-radius: 4px;
-    border: 1px solid rgba(243, 227, 184, 0.2);
-    margin-bottom: 12px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
     font-weight: 500;
+    color: var(--gold);
+    background: rgba(255, 234, 167, 0.08);
+    border: 1px solid rgba(255, 234, 167, 0.25);
+    border-radius: 999px;
+    letter-spacing: 0.5px;
   }
-  .act-title {
+
+  /* รายละเอียดตัวหนังสือ (ขอบหัวข้อแบบเส้นทอง) */
+  .activity-title {
+    font-family: 'Noto Serif Thai', serif;
     font-size: 1.15rem;
-    font-weight: 600;
     color: var(--white);
+    line-height: 1.45;
+    font-weight: 600;
+    border-left: 3px solid var(--gold);
+    padding-left: 10px;
     margin-bottom: 8px;
-    line-height: 1.4;
   }
-  .act-desc {
-    color: var(--frost);
-    font-size: 0.9rem;
+  .activity-desc {
+    font-size: 0.88rem;
+    color: var(--silver);
     line-height: 1.6;
-    margin-bottom: 14px;
+    font-weight: 300;
+    padding-left: 13px;
   }
-  
-  /* ================= NAVIGATION BUTTONS ================= */
+
+  /* ================= BUTTONS NAVIGATION ================= */
   .nav-button-container {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 24px;
-    margin: 60px auto 20px;
+    margin: 50px auto 10px;
     width: 100%;
     max-width: 520px;
     padding: 0 20px;
@@ -168,16 +172,16 @@
     white-space: nowrap;
   }
   .btn-primary {
-    background: linear-gradient(135deg, #F3E3B8 0%, #E4D09B 100%);
+    background: linear-gradient(135deg, #FFEAA7 0%, #E4D09B 100%);
     color: #030B18;
-    box-shadow: 0 4px 15px rgba(243, 227, 184, 0.2), 0 0 0 1px rgba(243, 227, 184, 0.1);
+    box-shadow: 0 4px 15px rgba(255, 234, 167, 0.2), 0 0 0 1px rgba(255, 234, 167, 0.1);
   }
   .btn-primary::after { content: '→'; font-weight: bold; transition: transform 0.2s; }
   .btn-primary:hover {
     transform: translateY(-4px);
     background: #FFFFFF;
     color: #030B18;
-    box-shadow: 0 12px 28px rgba(243, 227, 184, 0.45), 0 0 20px rgba(243, 227, 184, 0.2);
+    box-shadow: 0 12px 28px rgba(255, 234, 167, 0.45), 0 0 20px rgba(255, 234, 167, 0.2);
   }
   .btn-primary:hover::after { transform: translateX(4px); }
   
@@ -197,24 +201,28 @@
   }
   .btn-secondary:hover::before { transform: translateX(-4px); }
 
-  footer.site-end { text-align: center; padding: 20px 6vw 20px; font-size: 0.76rem; color: rgba(216,233,245,0.4); position: relative; z-index: 1; }
+  footer.site-end { text-align: center; padding: 20px 6vw; font-size: 0.76rem; color: rgba(216,233,245,0.4); position: relative; z-index: 1; }
 
-  /* Responsive Design สำหรับหน้าจอเล็ก */
+  /* Responsive Design */
   @media (max-width: 860px) {
     .nav-links { position: fixed; top:0; right:0; height:100vh; width:70vw; background: rgba(3,11,24,0.97); flex-direction: column; justify-content:center; align-items:flex-start; padding: 40px; gap: 26px; transform: translateX(100%); transition: transform 0.35s ease; }
     .nav-links.open { transform: translateX(0); } .nav-toggle { display:block; }
-    .activities-grid { grid-template-columns: 1fr; }
+    .moon { width: 90px; height: 90px; top: 14vh; right: 6vw; }
+    .activities-grid { grid-template-columns: 1fr; gap: 24px; }
   }
   @media (max-width: 480px) {
-    .nav-button-container { gap: 12px; margin-top: 45px; }
+    .activity-card { padding: 20px; }
+    .image-container { height: 180px; }
+    .activity-title { font-size: 1.05rem; }
+    .nav-button-container { gap: 12px; margin-top: 35px; }
     .btn-nav { padding: 12px 20px; font-size: 0.88rem; }
-    .act-content { padding: 16px; }
   }
 </style>
 </head>
 <body>
 
 <div class="sky"></div><div class="stars"></div>
+<div class="moon"></div>
 <div class="skyline" id="skyline">
   <div class="layer layer-far" id="layerFar"></div>
   <div class="layer layer-mid" id="layerMid"></div>
@@ -235,91 +243,57 @@
 </nav>
 
 <main>
-  <h1 class="page-title">ผลงานและกิจกรรม</h1>
-  <p class="page-subtitle">การเข้าร่วมกิจกรรมนอกหลักสูตรและโปรเจกต์สร้างสรรค์เพื่อพัฒนาทักษะรอบด้าน</p>
+  <div class="page-header">
+    <h1 class="page-title">ผลงานและกิจกรรม</h1>
+    <p class="page-subtitle">การเข้าร่วมกิจกรรมนอกหลักสูตรและโปรเจกต์สร้างสรรค์เพื่อพัฒนาทักษะรอบด้าน</p>
+  </div>
 
   <div class="activities-grid">
     
-    <!-- กิจกรรมที่ 1: SWU Open House -->
-    <div class="act-card">
-      <div class="act-img">
-        <img src="act1.jpg" alt="SWU Open House" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="act-placeholder" style="display:none;">
-          <span>🏫</span><span>ยังไม่ได้ใส่รูปกิจกรรม (ชื่อไฟล์ act1.jpg)</span>
+    <!-- กล่องผลงานที่ 1: SWU Open House (สไตล์การศึกษา เรียบหรูคลาสสิก) -->
+    <div class="activity-card">
+      <div class="card-top">
+        <div class="image-container">
+          <img src="images/act1.jpg" alt="เปิดบ้านมหาลัยศรีนครินทรวิโรฒ">
         </div>
-      </div>
-      <div class="act-content">
+        <span class="badge">แนะแนวการศึกษา</span>
         <div>
-          <span class="act-tag">แนะแนวการศึกษา</span>
-          <h3 class="act-title">เข้าร่วมงานเปิดบ้านมหาวิทยาลัยศรีนครินทรวิโรฒ (SWU Open House)</h3>
-          <p class="act-desc">เดินทางไปศึกษาแนวทางการเรียนต่อและการเตรียมความพร้อมสู่ระดับมหาวิทยาลัย เพื่อเก็บข้อมูลหลักสูตรและค้นหาแรงบันดาลใจในคณะที่สนใจ</p>
+          <h2 class="activity-title">เข้าร่วมงานเปิดบ้านมหาวิทยาลัยศรีนครินทรวิโรฒ (SWU Open House)</h2>
+          <p class="activity-desc">
+            เดินทางไปศึกษาแนวทางการเรียนต่อและการเตรียมความพร้อมสู่ระดับมหาวิทยาลัย เพื่อเก็บข้อมูลหลักสูตรและค้นหาแรงบันดาลใจในคณะที่สนใจ
+          </p>
         </div>
       </div>
     </div>
 
-    <!-- กิจกรรมที่ 2: 3D Model Project -->
-    <div class="act-card">
-      <div class="act-img">
-        <img src="act2.jpg" alt="3D Bedroom Model" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="act-placeholder" style="display:none;">
-          <span>📐</span><span>ยังไม่ได้ใส่รูปกิจกรรม (ชื่อไฟล์ act2.jpg)</span>
+    <!-- กล่องผลงานที่ 2: 3D Bedroom Design (สไตล์การศึกษา เรียบหรูคลาสสิก) -->
+    <div class="activity-card">
+      <div class="card-top">
+        <div class="image-container">
+          <img src="images/act2.jpg" alt="โปรเจกต์ออกแบบโมเดล 3D">
         </div>
-      </div>
-      <div class="act-content">
+        <span class="badge">ทักษะและการออกแบบ</span>
         <div>
-          <span class="act-tag">ทักษะและการออกแบบ</span>
-          <h3 class="act-title">โปรเจกต์ออกแบบโมเดล 3D "ห้องนอนในฝัน"</h3>
-          <p class="act-desc">ใช้โปรแกรม SketchUp ในการจำลองและออกแบบห้องนอน นำเสนอการเลือกใช้วัสดุสำหรับทำเฟอร์นิเจอร์และการจัดสรรพื้นที่ใช้สอยอย่างมีประสิทธิภาพ</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- กิจกรรมที่ 3: Futsal Sport -->
-    <div class="act-card">
-      <div class="act-img">
-        <img src="act3.jpg" alt="Futsal Activity" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="act-placeholder" style="display:none;">
-          <span>⚽</span><span>ยังไม่ได้ใส่รูปกิจกรรม (ชื่อไฟล์ act3.jpg)</span>
-        </div>
-      </div>
-      <div class="act-content">
-        <div>
-          <span class="act-tag">กีฬาและสุขภาพ</span>
-          <h3 class="act-title">พัฒนาทักษะด้านกีฬาและการทำงานทีมผ่านฟุตซอล</h3>
-          <p class="act-desc">เข้าร่วมฝึกซ้อมและเล่นกีฬาฟุตซอล เพื่อส่งเสริมการพัฒนาสมรรถภาพทางกาย ฝึกฝนความกล้าคิดกล้าตัดสินใจ และการสื่อสารร่วมกับผู้อื่นในทีม</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- กิจกรรมที่ 4: เพิ่มเติมได้ตามชอบ -->
-    <div class="act-card">
-      <div class="act-img">
-        <img src="act4.jpg" alt="กิจกรรมอื่นๆ" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="act-placeholder" style="display:none;">
-          <span>✨</span><span>ยังไม่ได้ใส่รูปกิจกรรม (ชื่อไฟล์ act4.jpg)</span>
-        </div>
-      </div>
-      <div class="act-content">
-        <div>
-          <span class="act-tag">การเรียนรู้</span>
-          <h3 class="act-title">กิจกรรมและผลงานพัฒนาตนเอง</h3>
-          <p class="act-desc">เข้าร่วมกิจกรรมต่าง ๆ ภายในโรงเรียนและชุมชนเพื่อเพิ่มพูนประสบการณ์ ฝึกฝนทักษะการเป็นผู้นำ และการแก้ไขปัญหาเฉพาะหน้า</p>
+          <h2 class="activity-title">โปรเจกต์ออกแบบโมเดล 3D "ห้องนอนในฝัน"</h2>
+          <p class="activity-desc">
+            ใช้โปรแกรม SketchUp ในการจำลองและออกแบบห้องนอน นำเสนอการเลือกใช้วัสดุสำหรับทำเฟอร์นิเจอร์และการจัดสรรพื้นที่ใช้สอยอย่างมีประสิทธิภาพ
+          </p>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- ปุ่มนำทางดีไซน์พรีเมียม -->
+  <!-- ปุ่มนำทางควบคุมด้านล่าง -->
   <div class="nav-button-container">
     <a href="education.html" class="btn-nav btn-secondary">ย้อนกลับ</a>
-    <a href="contact.html" class="btn-nav btn-primary">ถัดไป</a>
+    <a href="contact.html" class="btn-nav btn-primary">ติดต่อเรา</a>
   </div>
 </main>
 
-<footer class="site-end">© 2569 อติรุจ ชูพลกรัง · เเฟ้มสะสมผลงานสำหรับสมัครเข้าศึกษาคณะบริหารธุรกิจ</footer>
+<footer class="site-end">© 2569 อติรุจ ชูพลกรัง · พอร์ตโฟลิโอสำหรับสมัครเข้าศึกษาคณะบริหารธุรกิจ</footer>
 
-<!-- ระบบเมืองและเอฟเฟกต์ (แบบเดิมเป๊ะ) -->
+<!-- ระบบเมืองและเอฟเฟกต์ -->
 <script>
   const navToggle = document.getElementById('navToggle'); const navLinks = document.getElementById('navLinks');
   navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
