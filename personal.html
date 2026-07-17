@@ -57,98 +57,182 @@
   .nav-links a:hover { color: var(--white); } .nav-links a:hover::after { width:100%; }
   .nav-toggle { display:none; background:none; border:none; color:var(--white); font-size:1.6rem; cursor:pointer; }
 
-  /* ================= MAIN WRAPPER (TWO COLUMN GRID) ================= */
-  main { position: relative; z-index: 1; width: 100%; max-width: 1000px; margin: 0 auto; padding: 130px 4vw 60px; flex-grow: 1; }
+  /* ================= MAIN CONTENT LAYOUT ================= */
+  main { position: relative; z-index: 1; width: 100%; max-width: 920px; margin: 0 auto; padding: 130px 4vw 60px; flex-grow: 1; }
   
-  .page-title { font-family: 'Noto Serif Thai', serif; color: var(--white); font-size: 2.1rem; font-weight: 700; margin-bottom: 30px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
-  
-  .profile-grid { display: block; }
-  .profile-left { display: block; width: 100%; max-width: 320px; margin: 0 auto 30px; text-align: center; }
-  .profile-right { display: block; width: 100%; }
-  
-  /* รองรับคอมพิวเตอร์และแท็บเล็ต */
-  @media (min-width: 768px) {
-    .profile-grid { display: table; width: 100%; table-layout: fixed; }
-    .profile-left { display: table-cell; width: 35%; vertical-align: top; padding-right: 40px; }
-    .profile-right { display: table-cell; width: 65%; vertical-align: top; }
-  }
+  .page-title { font-family: 'Noto Serif Thai', serif; font-size: 2.1rem; color: var(--white); text-align: center; margin-bottom: 40px; font-weight: 700; }
 
-  /* ================= PHOTO FRAME (Glassmorphic) ================= */
+  /* โครงสร้างแบบกริดแบ่ง ซ้าย-ขวา */
+  .profile-grid { display: grid; grid-template-columns: 280px 1fr; gap: 35px; align-items: start; }
+
+  /* ================= ฝั่งซ้าย: กล่องใส่รูป (ปรับสีทึบเหมือนการศึกษา) ================= */
+  .profile-left { display: flex; flex-direction: column; align-items: center; }
+  
   .photo-frame {
-    width: 100%; max-width: 280px; margin: 0 auto; aspect-ratio: 1/1; border-radius: 20px;
-    background: rgba(11, 37, 69, 0.4); border: 1px solid rgba(255, 234, 167, 0.25);
-    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.5); padding: 12px; transition: all 0.3s ease;
+    width: 280px;
+    height: 320px;
+    background: rgba(3, 11, 24, 0.9); /* ปรับเป็นสีน้ำเงินทึบ 90% */
+    border: 1px solid rgba(255, 234, 167, 0.25);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
   }
-  .photo-frame:hover { transform: translateY(-5px); border-color: rgba(255, 234, 167, 0.5); box-shadow: 0 15px 40px rgba(255,234,167,0.15); }
-  .photo-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+  .photo-frame:hover { transform: translateY(-4px); }
   
-  /* ตัวแทนกรณีไม่มีรูปภาพ */
+  /* ตัวจำลองรูปโปรไฟล์ */
   .photo-placeholder {
-    width: 100%; height: 100%; border-radius: 12px; background: rgba(3, 11, 24, 0.5);
-    display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--silver); gap: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255, 234, 167, 0.6);
   }
-  .photo-placeholder span { font-size: 0.85rem; letter-spacing: 0.5px; }
+  .photo-placeholder span { font-size: 0.85rem; letter-spacing: 1px; color: var(--silver); }
 
-  /* ================= GLASS BOXES (คุมโทนเดียวกับหน้า Contact) ================= */
-  .glass-box {
-    background: rgba(11, 37, 69, 0.4);
-    border: 1px solid rgba(255, 234, 167, 0.2);
-    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-    border-radius: 18px; padding: 26px 30px; margin-bottom: 25px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  /* แท็กรูปภาพจริง */
+  .photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
   }
-  .glass-box:hover {
-    transform: translateY(-3px); border-color: rgba(255, 234, 167, 0.45);
-    box-shadow: 0 12px 35px rgba(255, 234, 167, 0.1);
+
+  /* ================= ฝั่งขวา: กล่องข้อมูลและเนื้อหา (ปรับแต่งสไตล์การศึกษา) ================= */
+  .profile-right { display: flex; flex-direction: column; gap: 24px; }
+
+  /* กล่องข้อมูลสไตล์หน้าการศึกษา */
+  .education-style-box {
+    background: rgba(3, 11, 24, 0.9); /* สีน้ำเงินทึบ 90% ของหน้าประวัติการศึกษา */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 28px 30px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.5);
   }
-  .box-title { font-size: 1.15rem; font-weight: 600; color: var(--white); margin-bottom: 18px; border-left: 4px solid var(--gold); padding-left: 10px; letter-spacing: 0.5px; }
+
+  /* หัวข้อกล่องแบบมีเส้นตกแต่งด้านหน้า */
+  .box-title {
+    font-family: 'Noto Serif Thai', serif;
+    font-size: 1.35rem;
+    color: var(--white);
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-left: 3px solid var(--gold);
+    padding-left: 12px;
+  }
 
   /* ตารางข้อมูลส่วนตัว */
   .info-table { width: 100%; border-collapse: collapse; }
-  .info-table td { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.95rem; vertical-align: top; }
-  .info-table tr:last-child td { border-bottom: none; }
-  .info-label { width: 32%; color: var(--gold); font-weight: 500; }
-  .info-value { width: 68%; color: var(--frost); }
+  .info-table tr { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  .info-table tr:last-child { border-bottom: none; }
+  .info-table td { padding: 14px 0; font-size: 0.95rem; line-height: 1.5; }
+  .info-label { width: 130px; font-weight: 600; color: var(--gold); }
+  .info-value { color: var(--frost); }
 
-  /* กล่องความสามารถพิเศษดีไซน์ย่อยภายใน */
-  .talent-list { display: block; }
-  .talent-item { display: block; margin-bottom: 14px; }
-  .talent-item:last-child { margin-bottom: 0; }
-  .talent-header { color: var(--white); font-weight: 500; font-size: 0.95rem; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
-  .talent-header span.icon { color: var(--gold); }
-  .talent-desc { font-size: 0.88rem; color: var(--silver); line-height: 1.5; padding-left: 20px; }
+  /* คำอธิบายความสามารถและทักษะ */
+  .skills-container { margin-top: 5px; }
+  .skill-header { display: flex; align-items: center; gap: 10px; font-size: 1rem; font-weight: 600; color: var(--white); margin-bottom: 8px; }
+  .skill-desc { font-size: 0.88rem; color: var(--silver); line-height: 1.6; padding-left: 28px; }
 
-  /* กล่องคติประจำใจสไตล์หรูหราพิเศษ */
-  .motto-box { text-align: center; background: linear-gradient(135deg, rgba(11, 37, 69, 0.5) 0%, rgba(3, 11, 24, 0.6) 100%); border-color: rgba(255, 234, 167, 0.3); }
-  .motto-text { font-family: 'Noto Serif Thai', serif; font-size: 1.25rem; font-weight: 600; color: var(--gold); line-height: 1.6; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(255,234,167,0.2); }
-  .motto-sub { font-size: 0.85rem; color: var(--silver); letter-spacing: 1px; text-transform: uppercase; }
+  /* กล่องคติพจน์สีเข้มเรียบหรู */
+  .quote-box {
+    background: rgba(3, 11, 24, 0.9);
+    border: 1px solid rgba(255, 234, 167, 0.2);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.5);
+  }
+  .quote-text {
+    font-family: 'Noto Serif Thai', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+  }
 
   /* ================= BUTTONS NAVIGATION ================= */
-  .nav-button-container { display: flex; justify-content: center; align-items: center; gap: 24px; margin: 40px auto 10px; width: 100%; max-width: 520px; }
-  .btn-nav { flex: 1; text-align: center; padding: 13px 30px; border-radius: 999px; font-size: 0.95rem; font-weight: 500; text-decoration: none; letter-spacing: 0.5px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
-  .btn-primary { background: linear-gradient(135deg, #FFEAA7 0%, #E4D09B 100%); color: #030B18; box-shadow: 0 4px 15px rgba(255, 234, 167, 0.2); }
+  .nav-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin: 45px auto 10px;
+    width: 100%;
+    max-width: 520px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 10;
+  }
+  .btn-nav {
+    flex: 1;
+    text-align: center;
+    padding: 14px 30px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #FFEAA7 0%, #E4D09B 100%);
+    color: #030B18;
+    box-shadow: 0 4px 15px rgba(255, 234, 167, 0.2), 0 0 0 1px rgba(255, 234, 167, 0.1);
+  }
   .btn-primary::after { content: '→'; font-weight: bold; transition: transform 0.2s; }
-  .btn-primary:hover { transform: translateY(-4px); background: #FFFFFF; color: #030B18; box-shadow: 0 12px 28px rgba(255, 234, 167, 0.45); }
+  .btn-primary:hover {
+    transform: translateY(-4px);
+    background: #FFFFFF;
+    color: #030B18;
+    box-shadow: 0 12px 28px rgba(255, 234, 167, 0.45), 0 0 20px rgba(255, 234, 167, 0.2);
+  }
   .btn-primary:hover::after { transform: translateX(4px); }
-  .btn-secondary { background: rgba(255, 255, 255, 0.05); color: #D8E9F5; border: 1px solid rgba(216, 233, 245, 0.25); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
+  
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: #D8E9F5;
+    border: 1px solid rgba(216, 233, 245, 0.25);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
   .btn-secondary::before { content: '←'; font-weight: bold; transition: transform 0.2s; }
-  .btn-secondary:hover { transform: translateY(-4px); background: rgba(255, 255, 255, 0.15); color: #FFFFFF; border-color: rgba(216, 233, 245, 0.6); }
+  .btn-secondary:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.15);
+    color: #FFFFFF;
+    border-color: rgba(216, 233, 245, 0.6);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 0 15px rgba(216, 233, 245, 0.1);
+  }
   .btn-secondary:hover::before { transform: translateX(-4px); }
 
   footer.site-end { text-align: center; padding: 20px 6vw; font-size: 0.76rem; color: rgba(216,233,245,0.4); position: relative; z-index: 1; }
 
   /* Responsive Design */
-  @media (max-width: 767px) {
+  @media (max-width: 860px) {
     .nav-links { position: fixed; top:0; right:0; height:100vh; width:70vw; background: rgba(3,11,24,0.97); flex-direction: column; justify-content:center; align-items:flex-start; padding: 40px; gap: 26px; transform: translateX(100%); transition: transform 0.35s ease; }
     .nav-links.open { transform: translateX(0); } .nav-toggle { display:block; }
     .moon { width: 90px; height: 90px; top: 14vh; right: 6vw; }
-    .glass-box { padding: 20px 22px; }
+    .profile-grid { grid-template-columns: 1fr; gap: 30px; justify-items: center; }
+    .profile-right { width: 100%; }
   }
   @media (max-width: 480px) {
-    .info-label { width: 40%; } .info-value { width: 60%; }
-    .nav-button-container { gap: 12px; } .btn-nav { padding: 12px 18px; font-size: 0.88rem; }
+    .education-style-box { padding: 20px; }
+    .info-label { width: 105px; font-size: 0.9rem; }
+    .info-value { font-size: 0.9rem; }
+    .nav-button-container { gap: 12px; margin-top: 35px; }
+    .btn-nav { padding: 12px 20px; font-size: 0.88rem; }
   }
 </style>
 </head>
@@ -177,27 +261,28 @@
 
 <main>
   <h1 class="page-title">ประวัติส่วนตัว</h1>
-  
+
   <div class="profile-grid">
-    <div class="profile-left">
-     <div class="photo-frame">
-  <img src="images/IMG_0641.jpeg" alt="อติรุจ">
-</div>
-
-    <span>[ วางรูปโปรไฟล์ ]</span>
-  </div>
-</div>
-
-    </div>
     
+    <!-- ฝั่งซ้าย: กล่องใส่รูปโปร์ไฟล์สีเข้มคมชัด (ลบลายน้ำและพื้นที่โปร่งแสงออก) -->
+    <div class="profile-left">
+      <div class="photo-frame">
+     <img src="images/IMG_0641.jpeg" alt="อติรุจ"> -->
+          <span>[ วางรูปโปรไฟล์ ]</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ฝั่งขวา: กลุ่มกล่องข้อมูลดีไซน์เฉียบสไตล์ประวัติการศึกษา -->
     <div class="profile-right">
       
-      <div class="glass-box">
+      <!-- กล่อง 1: ข้อมูลส่วนตัว -->
+      <div class="education-style-box">
         <h2 class="box-title">ข้อมูลส่วนตัว</h2>
         <table class="info-table">
           <tr>
             <td class="info-label">ชื่อ-นามสกุล</td>
-            <td class="info-value">นายอติรุจ ชูพลกรัง</td>
+            <td class="info-value">นายอดิรุจ ชูพลกรัง</td>
           </tr>
           <tr>
             <td class="info-label">ชื่อเล่น</td>
@@ -213,35 +298,39 @@
           </tr>
         </table>
       </div>
-      
-      <div class="glass-box">
+
+      <!-- กล่อง 2: ความสามารถพิเศษ & ทักษะ -->
+      <div class="education-style-box">
         <h2 class="box-title">ความสามารถพิเศษ & ทักษะ</h2>
-        <div class="talent-list">
-          <div class="talent-item">
-            <div class="talent-header"><span class="icon">⚽</span> เซปักตะกร้อ & ฟุตซอล (ระดับเชี่ยวชาญ)</div>
-            <div class="talent-desc">ทักษะการเล่นที่ว่องไว แม่นยำ และโดดเด่นสะดุดตา เสริมสร้างทักษะการทำงานร่วมกันเป็นทีม การวางกลยุทธ์ และการตัดสินใจภายใต้สภาวะกดดันได้อย่างดีเยี่ยม</div>
+        <div class="skills-container">
+          <div class="skill-header">
+            <span>⚽ เซปักตะกร้อ & ฟุตซอล (ระดับเชี่ยวชาญ)</span>
           </div>
-          
+          <p class="skill-desc">
+            ทักษะการเล่นที่ว่องไว แม่นยำ และโดดเด่นสะดุดตา เสริมสร้างทักษะการทำงานร่วมกันเป็นทีม การวางกลยุทธ์ และการตัดสินใจภายใต้สภาวะกดดันได้อย่างดีเยี่ยม
+          </p>
         </div>
       </div>
 
-      <div class="glass-box motto-box">
-        <div class="motto-text">"ความสำเร็จไม่ได้สร้างได้ด้วยตัวคนเดียว แต่เกิดจากความร่วมมือและหัวใจที่ไม่ยอมแพ้"</div>
-        
+      <!-- กล่อง 3: คติพจน์ประจำใจ -->
+      <div class="quote-box">
+        <p class="quote-text">"ความสำเร็จไม่ได้สร้างได้ด้วยตัวคนเดียว แต่เกิดจากความร่วมมือและหัวใจที่ไม่ยอมแพ้"</p>
       </div>
-      
+
     </div>
+
   </div>
 
+  <!-- ปุ่มนำทางควบคุมด้านล่าง -->
   <div class="nav-button-container">
     <a href="index.html" class="btn-nav btn-secondary">ย้อนกลับ</a>
-    <a href="education.html" class="btn-nav btn-primary">ถัดไป</a>
+    <a href="education.html" class="btn-nav btn-primary">การศึกษา</a>
   </div>
 </main>
-  <footer class="site-end">© 2569 อติรุจ ชูพลกรัง · เเฟ้มสะสมผลงานสำหรับสมัครเข้าศึกษาคณะบริหารธุรกิจ</footer>
 
+<footer class="site-end">© 2569 อดิรุจ ชูพลกรัง · เเฟ้มสะสมผลงานสำหรับสมัครเข้าศึกษาคณะบริหารธุรกิจ</footer>
 
-
+<!-- ระบบเมืองและเอฟเฟกต์ -->
 <script>
   const navToggle = document.getElementById('navToggle'); const navLinks = document.getElementById('navLinks');
   navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
