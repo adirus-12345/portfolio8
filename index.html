@@ -8,401 +8,179 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-
-  :root{
-    --night-top: #030B18;
-    --night-mid: #0B2545;
-    --night-low: #163A63;
-    --steel: #3A6EA5;
-    --frost: #D8E9F5;
-    --ice: #F4F9FD;
-    --white: #FFFFFF;
-    --gold: #F3E3B8;
-    --silver: #A9BFD6;
+  :root {
+    --night-top: #030B18; --night-mid: #0B2545; --night-low: #163A63;
+    --steel: #3A6EA5; --frost: #F0F7FD; --ice: #F4F9FD;
+    --white: #FFFFFF; --gold: #FFEAA7; --silver: #D1E2F2;
   }
-
-  *{ margin:0; padding:0; box-sizing:border-box; }
-  html{ scroll-behavior: smooth; }
-
-  body{
-    font-family: 'Prompt', sans-serif;
-    background: var(--night-top);
-    color: var(--frost);
-    overflow-x: hidden;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
-  }
-
-  /* ================= SKY ================= */
-  .sky{
-    position: fixed;
-    inset: 0;
-    z-index: -6;
-    background: linear-gradient(180deg, var(--night-top) 0%, var(--night-mid) 55%, var(--night-low) 100%);
-    background-size: 100% 220%;
-    animation: skyDrift 26s ease-in-out infinite;
-  }
-  @keyframes skyDrift{
-    0%,100%{ background-position: 0% 0%; }
-    50%{ background-position: 0% 30%; }
-  }
-
-  .stars{
-    position: fixed;
-    inset: 0;
-    z-index: -5;
-    background-image:
-      radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,.9), transparent 60%),
-      radial-gradient(1px 1px at 28% 8%, rgba(255,255,255,.7), transparent 60%),
-      radial-gradient(1.5px 1.5px at 44% 26%, rgba(255,255,255,.8), transparent 60%),
-      radial-gradient(1px 1px at 62% 12%, rgba(255,255,255,.6), transparent 60%),
-      radial-gradient(1.5px 1.5px at 77% 22%, rgba(255,255,255,.9), transparent 60%),
-      radial-gradient(1px 1px at 91% 9%, rgba(255,255,255,.7), transparent 60%),
-      radial-gradient(1.5px 1.5px at 8% 34%, rgba(255,255,255,.6), transparent 60%),
-      radial-gradient(1px 1px at 53% 38%, rgba(255,255,255,.7), transparent 60%);
-    opacity: 0.8;
-    animation: twinkle 5s ease-in-out infinite alternate;
-  }
-  @keyframes twinkle{ 0%{ opacity: .5; } 100%{ opacity: 1; } }
-
-  .moon{
-    position: fixed;
-    top: 12%;
-    right: 12%;
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #FFFDF6, var(--gold) 70%);
-    box-shadow: 0 0 70px 20px rgba(243,227,184,0.35), 0 0 140px 60px rgba(243,227,184,0.15);
-    z-index: -5;
-    animation: moonGlow 6s ease-in-out infinite;
-  }
-  @keyframes moonGlow{
-    0%,100%{ box-shadow: 0 0 70px 20px rgba(243,227,184,0.35), 0 0 140px 60px rgba(243,227,184,0.15); }
-    50%{ box-shadow: 0 0 90px 30px rgba(243,227,184,0.5), 0 0 170px 80px rgba(243,227,184,0.22); }
-  }
-
-  /* ================= SKYLINE ================= */
-  .skyline{
-    position: fixed;
-    left: 0; right: 0;
-    bottom: 0;
-    height: 62vh;
-    z-index: -4;
-    pointer-events: none;
-  }
-  .layer{
-    position: absolute;
-    left: -6%;
-    right: -6%;
-    bottom: 0;
-    display: flex;
-    align-items: flex-end;
-    gap: 2vw;
-    transition: transform 0.6s ease-out;
-    will-change: transform;
-  }
-  .layer-far{ opacity: 0.55; filter: blur(0.4px); }
-  .layer-mid{ opacity: 0.8; }
-  .layer-near{ opacity: 1; }
-
-  .bldg{
-    position: relative;
-    background: var(--bc, var(--night-low));
-    background-image:
-      linear-gradient(var(--bc, var(--night-low)), var(--bc, var(--night-low))),
-      repeating-linear-gradient(to right, transparent 0 9px, rgba(243,227,184,var(--wo,.35)) 9px 12px),
-      repeating-linear-gradient(to bottom, transparent 0 13px, rgba(243,227,184,var(--wo,.35)) 13px 16px);
-    background-blend-mode: normal, screen, screen;
-  }
-  .bldg::after{
-    content:'';
-    position:absolute; inset:0;
-    background-image:
-      repeating-linear-gradient(to right, transparent 0 9px, rgba(255,251,235,0.9) 9px 12px),
-      repeating-linear-gradient(to bottom, transparent 0 13px, rgba(255,251,235,0.9) 13px 16px);
-    background-blend-mode: screen;
-    opacity: 0;
-    animation: flicker 4.5s ease-in-out infinite;
-    animation-delay: var(--fd, 0s);
-    mix-blend-mode: screen;
-  }
-  @keyframes flicker{
-    0%, 40%{ opacity: 0; }
-    45%{ opacity: 0.55; }
-    55%{ opacity: 0.15; }
-    62%{ opacity: 0.6; }
-    100%{ opacity: 0; }
-  }
-
-  .spire{
-    position:absolute;
-    left: 50%;
-    bottom: 100%;
-    transform: translateX(-50%);
-    width: 3px;
-    background: var(--bc, var(--night-low));
-  }
-  .spire::before{
-    content:'';
-    position:absolute;
-    top:-6px; left:50%;
-    transform: translateX(-50%);
-    width:6px; height:6px;
-    border-radius:50%;
-    background: var(--gold);
-    box-shadow: 0 0 8px 2px rgba(243,227,184,.8);
-  }
-
-  /* ---- Neon accents ---- */
-  .neon-stripe{
-    position:absolute;
-    top: 12%;
-    bottom: 12%;
-    width: 3px;
-    background: var(--nc, #7CE7FF);
-    box-shadow: 0 0 6px 1.5px var(--nc, #7CE7FF), 0 0 16px 4px var(--nc, #7CE7FF);
-    animation: neonPulse 3.2s ease-in-out infinite;
-    animation-delay: var(--nd, 0s);
-  }
-  .neon-stripe.left{ left: 10%; }
-  .neon-stripe.right{ right: 10%; }
-
-  .neon-band{
-    position:absolute;
-    left: 14%;
-    right: 14%;
-    height: 3px;
-    background: var(--nc, #FF7FBF);
-    box-shadow: 0 0 6px 1.5px var(--nc, #FF7FBF), 0 0 16px 4px var(--nc, #FF7FBF);
-    animation: neonPulse 2.6s ease-in-out infinite;
-    animation-delay: var(--nd, 0s);
-  }
-
-  .neon-sign{
-    position:absolute;
-    top: 18%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 62%;
-    height: 10px;
-    border-radius: 3px;
-    background: var(--nc, #FFC46B);
-    box-shadow: 0 0 8px 2px var(--nc, #FFC46B), 0 0 22px 6px var(--nc, #FFC46B);
-    animation: neonPulse 3.6s ease-in-out infinite;
-    animation-delay: var(--nd, 0s);
-  }
-
-  @keyframes neonPulse{
-    0%, 100%{ opacity: 0.95; filter: brightness(1); }
-    45%{ opacity: 0.55; filter: brightness(0.85); }
-    50%{ opacity: 1; filter: brightness(1.2); }
-    78%{ opacity: 0.7; }
-  }
-
-  /* ================= SNOW ================= */
-  canvas#snow{
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-  }
-
-  .ground-mist{
-    position: fixed;
-    left: 0; right: 0; bottom: 0;
-    height: 18vh;
-    z-index: -2;
-    background: linear-gradient(180deg, transparent, rgba(216,233,245,0.18));
-    pointer-events: none;
-  }
-
-  /* ================= NAV ================= */
-  nav{
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 50;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 22px 6vw;
-    background: rgba(3, 11, 24, 0.35);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-  .brand{
-    font-family: 'Noto Serif Thai', serif;
-    font-weight: 600;
-    color: var(--white);
-    letter-spacing: 0.5px;
-    font-size: 1.05rem;
-  }
-  .brand span{ color: var(--gold); font-weight: 400; }
-  .nav-links{ display:flex; gap: 30px; list-style:none; }
-  .nav-links a{
-    color: var(--frost);
-    text-decoration: none;
-    font-size: 0.9rem;
-    letter-spacing: 0.3px;
-    position: relative;
-    padding-bottom: 4px;
-    transition: color 0.25s;
-  }
-  .nav-links a.current{ color: var(--gold); }
-  .nav-links a::after{
-    content:'';
-    position:absolute; left:0; bottom:0;
-    width:0; height:1px;
-    background: var(--gold);
-    transition: width 0.3s ease;
-  }
-  .nav-links a:hover{ color: var(--white); }
-  .nav-links a:hover::after{ width:100%; }
-  .nav-toggle{ display:none; background:none; border:none; color:var(--white); font-size:1.6rem; cursor:pointer; z-index:60; }
-
-  @media (max-width: 860px){
-    .nav-links{
-      position: fixed; top:0; right:0; height:100vh; width:70vw;
-      background: rgba(3,11,24,0.97);
-      flex-direction: column; justify-content:center; align-items:flex-start;
-      padding: 40px; gap: 26px;
-      transform: translateX(100%);
-      transition: transform 0.35s ease;
-    }
-    .nav-links.open{ transform: translateX(0); }
-    .nav-toggle{ display:block; }
-    .moon{ width: 90px; height: 90px; top: 8%; right: 8%; }
-  }
-
-  ::selection{ background: var(--steel); color: var(--white); }
-
-  /* ================= HERO CONTENT (ปรับขนาดใหม่) ================= */
-  .hero-wrapper{
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 150px 6vw 50px;
-    margin: auto;
-    max-width: 900px;
-  }
-
-    /* ================= PROFILE FRAME (ดีไซน์ใหม่ ใหญ่และสมดุลขึ้น) ================= */
-  .profile-frame {
-    width: 220px;  /* ขยายขนาดให้ใหญ่ขึ้นนิดนึง */
-    height: 220px;
-    border-radius: 50%;
-    background: rgba(3, 11, 24, 0.3); /* พื้นหลังโปร่งแสงเข้ากับท้องฟ้า */
-    border: 4px solid var(--frost); /* ขอบด้านในสีขาว/ฟ้าอ่อน */
-    outline: 2px solid var(--gold); /* ขอบซ้อนด้านนอกสีทองบางๆ */
-    outline-offset: 6px; /* ระยะห่างระหว่างขอบในและขอบนอก ให้ดูมีมิติ */
-    box-shadow: 
-      0 15px 35px rgba(0, 0, 0, 0.5), 
-      inset 0 0 20px rgba(255, 255, 255, 0.1);
-    margin-bottom: 40px; /* เพิ่มระยะห่างจากตัวหนังสือให้ดูโปร่งและสมดุล */
-    /* อย่าลืมตั้ง position: relative ถ้าจะแก้เรื่อง z-index ในอนาคต */
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-  }
-
-  /* ลูกเล่นตอนเอาเมาส์ชี้ (Hover) กรอบจะลอยขึ้นและเรืองแสง */
-  .profile-frame:hover {
-    transform: translateY(-5px);
-    outline-color: #FFFFFF;
-    box-shadow: 
-      0 20px 45px rgba(0, 0, 0, 0.6), 
-      0 0 20px rgba(243, 227, 184, 0.4),
-      inset 0 0 25px rgba(255, 255, 255, 0.2);
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Prompt', sans-serif; background: var(--night-top); color: var(--frost);
+    overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between;
   }
   
-  /* สำหรับใส่รูปภาพจริง ให้รูปพอดีกับกรอบเป๊ะๆ */
-  .profile-frame img {
+  /* ================= SKY & EFFECTS ================= */
+  .sky { position: fixed; inset: 0; z-index: -6; background: linear-gradient(180deg, var(--night-top) 0%, var(--night-mid) 55%, var(--night-low) 100%); background-size: 100% 220%; animation: skyDrift 26s ease-in-out infinite; }
+  @keyframes skyDrift { 0%,100% { background-position: 0% 0%; } 50% { background-position: 0% 30%; } }
+  .stars { position: fixed; inset: 0; z-index: -5; background-image: radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,.9), transparent 60%), radial-gradient(1px 1px at 28% 8%, rgba(255,255,255,.7), transparent 60%), radial-gradient(1.5px 1.5px at 44% 26%, rgba(255,255,255,.8), transparent 60%), radial-gradient(1.5px 1.5px at 77% 22%, rgba(255,255,255,.9), transparent 60%), radial-gradient(1px 1px at 53% 38%, rgba(255,255,255,.7), transparent 60%); opacity: 0.8; animation: twinkle 5s ease-in-out infinite alternate; }
+  @keyframes twinkle { 0% { opacity: .5; } 100% { opacity: 1; } }
+  .ground-mist { position: fixed; left: 0; right: 0; bottom: 0; height: 18vh; z-index: -2; background: linear-gradient(180deg, transparent, rgba(216,233,245,0.18)); pointer-events: none; }
+  canvas#snow { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+
+  /* ================= MOON DESIGN ================= */
+  .moon { position: fixed; top: 18vh; right: 10vw; width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #FFFDF6 0%, #FDF4CD 45%, #EAD397 100%); box-shadow: 0 0 35px 8px rgba(243, 227, 184, 0.45), inset -10px -10px 25px rgba(0,0,0,0.12); z-index: -3; }
+
+  /* ================= SKYLINE ================= */
+  .skyline { position: fixed; left: 0; right: 0; bottom: 0; height: 62vh; z-index: -4; pointer-events: none; }
+  .layer { position: absolute; left: -6%; right: -6%; bottom: 0; display: flex; align-items: flex-end; gap: 2vw; transition: transform 0.6s ease-out; }
+  .layer-far { opacity: 0.55; filter: blur(0.4px); } .layer-mid { opacity: 0.8; } .layer-near { opacity: 1; }
+  .bldg { position: relative; background: var(--bc, var(--night-low)); background-image: linear-gradient(var(--bc, var(--night-low)), var(--bc, var(--night-low))), repeating-linear-gradient(to right, transparent 0 9px, rgba(243, 227, 184, var(--wo,.35)) 9px 12px), repeating-linear-gradient(to bottom, transparent 0 13px, rgba(243, 227, 184, var(--wo,.35)) 13px 16px); background-blend-mode: normal, screen, screen; }
+  .bldg::after { content:''; position:absolute; inset:0; background-image: repeating-linear-gradient(to right, transparent 0 9px, rgba(255,255,255,0.9) 9px 12px), repeating-linear-gradient(to bottom, transparent 0 13px, rgba(255,255,255,0.9) 13px 16px); background-blend-mode: screen; opacity: 0; animation: flicker 4.5s ease-in-out infinite; animation-delay: var(--fd, 0s); mix-blend-mode: screen; }
+  @keyframes flicker { 0%, 40% { opacity: 0; } 45% { opacity: 0.55; } 55% { opacity: 0.15; } 62% { opacity: 0.6; } 100% { opacity: 0; } }
+  .spire { position:absolute; left: 50%; bottom: 100%; transform: translateX(-50%); width: 3px; background: var(--bc, var(--night-low)); }
+  .spire::before { content:''; position:absolute; top:-6px; left:50%; transform: translateX(-50%); width:6px; height:6px; border-radius:50%; background: var(--gold); box-shadow: 0 0 8px 2px rgba(243,227,184,.8); }
+  .neon-stripe { position:absolute; top: 12%; bottom: 12%; width: 3px; background: var(--nc, #7CE7FF); box-shadow: 0 0 6px 1.5px var(--nc, #7CE7FF), 0 0 16px 4px var(--nc, #7CE7FF); animation: neonPulse 3.2s ease-in-out infinite; animation-delay: var(--nd, 0s); }
+  .neon-stripe.left { left: 10%; } .neon-stripe.right { right: 10%; }
+  .neon-band { position:absolute; left: 14%; right: 14%; height: 3px; background: var(--nc, #FF7FBF); box-shadow: 0 0 6px 1.5px var(--nc, #FF7FBF), 0 0 16px 4px var(--nc, #FF7FBF); animation: neonPulse 2.6s ease-in-out infinite; animation-delay: var(--nd, 0s); }
+  .neon-sign { position:absolute; top: 18%; left: 50%; transform: translateX(-50%); width: 62%; height: 10px; border-radius: 3px; background: var(--nc, #FFC46B); box-shadow: 0 0 8px 2px var(--nc, #FFC46B), 0 0 22px 6px var(--nc, #FFC46B); animation: neonPulse 3.6s ease-in-out infinite; animation-delay: var(--nd, 0s); }
+  @keyframes neonPulse { 0%, 100% { opacity: 0.95; filter: brightness(1); } 45% { opacity: 0.55; filter: brightness(0.85); } 50% { opacity: 1; filter: brightness(1.2); } 78%{ opacity: 0.7; } }
+
+  /* ================= NAVIGATION BAR ================= */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 22px 6vw; background: rgba(3, 11, 24, 0.45); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .brand { font-family: 'Noto Serif Thai', serif; font-weight: 600; color: var(--white); font-size: 1.05rem; }
+  .brand span { color: var(--gold); font-weight: 400; }
+  .nav-links { display:flex; gap: 30px; list-style:none; }
+  .nav-links a { color: var(--frost); text-decoration: none; font-size: 0.9rem; position: relative; padding-bottom: 4px; transition: color 0.25s; }
+  .nav-links a.current { color: var(--gold); }
+  .nav-links a::after { content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background: var(--gold); transition: width 0.3s ease; }
+  .nav-links a:hover { color: var(--white); } .nav-links a:hover::after { width:100%; }
+  .nav-toggle { display:none; background:none; border:none; color:var(--white); font-size:1.6rem; cursor:pointer; }
+
+  /* ================= HERO INTRO CONTENT ================= */
+  main { position: relative; z-index: 1; width: 100%; max-width: 900px; margin: 0 auto; padding: 130px 4vw 60px; flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+  /* รูปวงกลมด้านบน (Avatar Hero) */
+  .hero-avatar-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 10;
+  }
+  .hero-avatar {
+    width: 175px;
+    height: 175px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 234, 167, 0.45); /* ขอบทองบางเบา */
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.1), 0 15px 35px rgba(0,0,0,0.6);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--night-top);
+  }
+  .hero-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 50%; /* บังคับให้รูปกลมตามกรอบ */
   }
 
+  /* กรอบข้อความคำนำที่ตกแต่งใหม่สวยคมสมดุล */
+  .intro-card {
+    background: rgba(3, 11, 24, 0.85); /* พื้นหลังน้ำเงินเข้มโปร่งแสง 85% */
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-top: 3px solid var(--gold); /* เพิ่มขอบสีทองหนาด้านบนคุมโทนพอร์ตการศึกษา */
+    border-radius: 20px;
+    padding: 35px 45px;
+    width: 100%;
+    max-width: 680px;
+    text-align: center;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
 
-  /* ปรับขนาดตัวหนังสือให้เล็กลง กระชับ และสมดุลขึ้น */
-  .hero-wrapper h1{
+  .intro-title {
     font-family: 'Noto Serif Thai', serif;
-    font-weight: 700;
+    font-size: 1.85rem;
     color: var(--white);
-    font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+    font-weight: 700;
     line-height: 1.5;
-    text-shadow: 0 4px 20px rgba(0,0,0,0.6);
-    margin-bottom: 18px;
   }
-
-  .hero-wrapper p{
+  .intro-subtitle {
+    font-family: 'Noto Serif Thai', serif;
+    font-size: 1.55rem;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .intro-desc {
+    font-size: 0.9rem;
     color: var(--silver);
-    font-size: clamp(0.9rem, 1.4vw, 1.05rem);
-    line-height: 1.8;
-    max-width: 600px;
-    margin-bottom: 32px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
   }
 
-  /* ปุ่มนำทางเดี่ยวสไตล์พรีเมียม */
-  .btn-navigation{
-    padding: 14px 38px;
+  /* ปุ่มกดสไตล์ Premium */
+  .btn-action {
+    padding: 12px 35px;
     border-radius: 999px;
     font-size: 0.95rem;
     font-weight: 500;
     text-decoration: none;
     letter-spacing: 0.5px;
-    background: var(--gold);
-    color: var(--night-top);
-    box-shadow: 0 8px 24px rgba(243,227,184,0.2);
-    transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
-    display: inline-block;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+    background: linear-gradient(135deg, #FFEAA7 0%, #E4D09B 100%);
+    color: #030B18;
+    box-shadow: 0 4px 15px rgba(255, 234, 167, 0.25), 0 0 0 1px rgba(255, 234, 167, 0.1);
   }
-  .btn-navigation:hover{
-    transform: translateY(-3px);
-    box-shadow: 0 14px 34px rgba(243,227,184,0.4);
-    background: var(--white);
+  .btn-action::after { content: '→'; font-weight: bold; transition: transform 0.2s; }
+  .btn-action:hover {
+    transform: translateY(-4px);
+    background: #FFFFFF;
+    color: #030B18;
+    box-shadow: 0 12px 28px rgba(255, 234, 167, 0.45), 0 0 20px rgba(255, 234, 167, 0.2);
   }
+  .btn-action:hover::after { transform: translateX(4px); }
 
-  footer.site-end{
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    padding: 20px 6vw 4px;
-    font-size: 0.76rem;
-    color: rgba(216,233,245,0.4);
-    letter-spacing: 0.5px;
-  }
+  footer.site-end { text-align: center; padding: 20px 6vw; font-size: 0.76rem; color: rgba(216,233,245,0.4); position: relative; z-index: 1; }
 
+  /* Responsive Design */
+  @media (max-width: 860px) {
+    .nav-links { position: fixed; top:0; right:0; height:100vh; width:70vw; background: rgba(3,11,24,0.97); flex-direction: column; justify-content:center; align-items:flex-start; padding: 40px; gap: 26px; transform: translateX(100%); transition: transform 0.35s ease; }
+    .nav-links.open { transform: translateX(0); } .nav-toggle { display:block; }
+    .moon { width: 90px; height: 90px; top: 14vh; right: 6vw; }
+  }
+  @media (max-width: 580px) {
+    .hero-avatar { width: 145px; height: 145px; }
+    .intro-card { padding: 30px 24px; gap: 14px; }
+    .intro-title { font-size: 1.45rem; }
+    .intro-subtitle { font-size: 1.25rem; }
+    .intro-desc { font-size: 0.82rem; }
+    .btn-action { padding: 10px 26px; font-size: 0.88rem; }
+  }
 </style>
 </head>
 <body>
 
-<div class="sky"></div>
-<div class="stars"></div>
+<div class="sky"></div><div class="stars"></div>
 <div class="moon"></div>
-
 <div class="skyline" id="skyline">
   <div class="layer layer-far" id="layerFar"></div>
   <div class="layer layer-mid" id="layerMid"></div>
   <div class="layer layer-near" id="layerNear"></div>
 </div>
-
-<div class="ground-mist"></div>
-<canvas id="snow"></canvas>
+<div class="ground-mist"></div><canvas id="snow"></canvas>
 
 <nav>
   <div class="brand">PORTFOLIO<span> · ADIRUS</span></div>
@@ -413,165 +191,46 @@
     <li><a href="activities.html">ผลงาน</a></li>
     <li><a href="contact.html">ติดต่อ</a></li>
   </ul>
-  <button class="nav-toggle" id="navToggle" aria-label="เปิดเมนู">☰</button>
+  <button class="nav-toggle" id="navToggle">☰</button>
 </nav>
 
-<!-- ส่วนเนื้อหาหลักต้อนรับตรงกลางหน้าจอ -->
-<main class="hero-wrapper">
-  
-<div class="profile-frame">
-    <img src="images/IMG_0641.jpeg" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-</div>
+<main>
+  <!-- ส่วนรูปวงกลมโปรไฟล์ด้านบน -->
+  <div class="hero-avatar-wrapper">
+    <div class="hero-avatar">
+      <img src="images/profile.jpg" alt="อติรุจ ชูพลกรัง">
+    </div>
+  </div>
 
-
-  <!-- หัวข้อหลักที่ปรับขนาดให้เล็กลงและพอดีสายตามากขึ้น -->
-  <h1>สวัสดีครับ ผมชื่อ นาย อดิรุจ ชูพลกรัง<br>นักเรียนชั้นมัธยมศึกษาปีที่ 6</h1>
-  
-  <!-- ข้อความโปรยย่อย -->
-  <p>มุ่งมั่นสู่ คณะบริหารธุรกิจ มหาลัยบูรพา</p>
-  
-  <!-- ปุ่มนำทางเข้าสู่หน้าประวัติส่วนตัวเดี่ยวๆ -->
-  <a href="personal.html" class="btn-navigation">รู้จักผมให้มากขึ้น</a>
-
+  <!-- ส่วนกล่องข้อความคำนำจัดระเบียบสมดุลใหม่ (สวยและชัดเจนมากยิ่งขึ้น) -->
+  <div class="intro-card">
+    <h1 class="intro-title">สวัสดีครับ ผมชื่อ นายอติรุจ ชูพลกรัง</h1>
+    <h2 class="intro-subtitle">นักเรียนชั้นมัธยมศึกษาปีที่ 6</h2>
+    <p class="intro-desc">มุ่งมั่นสู่ คณะบริหารธุรกิจ มหาวิทยาลัยบูรพา</p>
+    
+    <a href="personal.html" class="btn-action">รู้จักผมให้มากขึ้น</a>
+  </div>
 </main>
-  <footer class="site-end">© 2569 อติรุจ ชูพลกรัง · เเฟ้มสะสมผลงานสำหรับสมัครเข้าศึกษาคณะบริหารธุรกิจ</footer>
 
+<footer class="site-end">© 2569 อติรุจ ชูพลกรัง · พอร์ตโฟลิโอสำหรับสมัครเข้าศึกษาคณะบริหารธุรกิจ</footer>
 
-
+<!-- ระบบเมืองและเอฟเฟกต์ -->
 <script>
-  // ---------- Mobile nav toggle ----------
-  const navToggle = document.getElementById('navToggle');
-  const navLinks = document.getElementById('navLinks');
+  const navToggle = document.getElementById('navToggle'); const navLinks = document.getElementById('navLinks');
   navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
-
-  // ---------- Build Bangkok-inspired skyline ----------
-  const palette = ['#0B2545', '#13315C', '#163A63', '#1C4570'];
-  const neonColors = ['#7CE7FF', '#FF7FBF', '#FFC46B', '#9B8CFF', '#6BFFC4'];
-
-  function addNeon(b, h){
-    const kind = Math.random();
-    const el = document.createElement('div');
-    const color = neonColors[Math.floor(Math.random() * neonColors.length)];
-    const delay = (Math.random() * 3).toFixed(2) + 's';
-    el.style.setProperty('--nc', color);
-    el.style.setProperty('--nd', delay);
-    if(kind < 0.4){
-      el.className = 'neon-stripe ' + (Math.random() < 0.5 ? 'left' : 'right');
-    } else if(kind < 0.75){
-      el.className = 'neon-band';
-      el.style.top = (30 + Math.random() * 40) + '%';
-    } else {
-      el.className = 'neon-sign';
-      el.style.top = (14 + Math.random() * 10) + '%';
-    }
-    b.appendChild(el);
-  }
-
-  function makeBuilding({ w, h, color, notch, spire, windowOpacity, neon }){
-    const b = document.createElement('div');
-    b.className = 'bldg';
-    b.style.width = w + 'px';
-    b.style.height = h + 'px';
-    b.style.setProperty('--bc', color);
-    b.style.setProperty('--wo', windowOpacity);
-    b.style.setProperty('--fd', (Math.random() * 5).toFixed(2) + 's');
-    if(notch){
-      b.style.clipPath = 'polygon(0 0, 100% 0, 100% 62%, 70% 62%, 70% 74%, 100% 74%, 100% 100%, 0 100%)';
-    }
-    if(spire){
-      const s = document.createElement('div');
-      s.className = 'spire';
-      s.style.height = (h * 0.28) + 'px';
-      s.style.setProperty('--bc', color);
-      b.appendChild(s);
-    }
-    if(neon) addNeon(b, h);
-    return b;
-  }
-
-  function buildLayer(container, { count, minW, maxW, minH, maxH, colorIdx, windowOpacity, notchChance, spireChance, neonChance }){
-    const frag = document.createDocumentFragment();
-    for(let i = 0; i < count; i++){
-      const w = minW + Math.random() * (maxW - minW);
-      const h = minH + Math.random() * (maxH - minH);
-      const color = palette[colorIdx];
-      const notch = Math.random() < notchChance;
-      const spire = Math.random() < spireChance;
-      const neon = Math.random() < neonChance;
-      frag.appendChild(makeBuilding({ w, h, color, notch, spire, windowOpacity, neon }));
-    }
-    container.appendChild(frag);
-  }
-
-  const layerFar = document.getElementById('layerFar');
-  const layerMid = document.getElementById('layerMid');
-  const layerNear = document.getElementById('layerNear');
-
-  buildLayer(layerFar, { count: 16, minW: 30, maxW: 60, minH: 90, maxH: 220, colorIdx: 0, windowOpacity: 0.25, notchChance: 0.08, spireChance: 0.15, neonChance: 0.1 });
-  buildLayer(layerMid, { count: 13, minW: 40, maxW: 85, minH: 140, maxH: 320, colorIdx: 1, windowOpacity: 0.4, notchChance: 0.15, spireChance: 0.2, neonChance: 0.3 });
-  buildLayer(layerNear, { count: 10, minW: 55, maxW: 110, minH: 200, maxH: 420, colorIdx: 2, windowOpacity: 0.55, notchChance: 0.2, spireChance: 0.25, neonChance: 0.45 });
-
-  // ---------- Parallax on pointer move ----------
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(!prefersReducedMotion){
-    window.addEventListener('mousemove', (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5);
-      layerFar.style.transform = `translateX(${x * 10}px)`;
-      layerMid.style.transform = `translateX(${x * 22}px)`;
-      layerNear.style.transform = `translateX(${x * 38}px)`;
-    });
-  }
-
-  // ---------- Falling snow ----------
-  const canvas = document.getElementById('snow');
-  const ctx = canvas.getContext('2d');
-  let W, H, flakes;
-
-  function resize(){
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  function makeFlakes(count){
-    return Array.from({ length: count }, () => ({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 2.6 + 1,
-      speedY: Math.random() * 0.9 + 0.4,
-      speedX: Math.random() * 0.6 - 0.3,
-      drift: Math.random() * Math.PI * 2,
-      opacity: Math.random() * 0.5 + 0.4
-    }));
-  }
-
-  const FLAKE_COUNT = window.innerWidth < 700 ? 70 : 140;
-  flakes = makeFlakes(FLAKE_COUNT);
-
-  function drawSnow(){
-    ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = '#FFFFFF';
-    for(const f of flakes){
-      ctx.globalAlpha = f.opacity;
-      ctx.beginPath();
-      ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-      ctx.fill();
-
-      f.y += f.speedY;
-      f.drift += 0.01;
-      f.x += f.speedX + Math.sin(f.drift) * 0.3;
-
-      if(f.y > H + 5){ f.y = -5; f.x = Math.random() * W; }
-      if(f.x > W + 5) f.x = -5;
-      if(f.x < -5) f.x = W + 5;
-    }
-    ctx.globalAlpha = 1;
-    if(!prefersReducedMotion) requestAnimationFrame(drawSnow);
-  }
-  drawSnow();
+  const palette = ['#0B2545', '#13315C', '#163A63', '#1C4570']; const neonColors = ['#7CE7FF', '#FF7FBF', '#FFC46B', '#9B8CFF'];
+  function addNeon(b){ const el = document.createElement('div'); const color = neonColors[Math.floor(Math.random() * neonColors.length)]; el.style.setProperty('--nc', color); el.style.setProperty('--nd', (Math.random() * 3).toFixed(2) + 's'); if(Math.random() < 0.4){ el.className = 'neon-stripe left'; } else { el.className = 'neon-band'; el.style.top = '40%'; } b.appendChild(el); }
+  function makeBuilding({ w, h, color, windowOpacity, neon }){ const b = document.createElement('div'); b.className = 'bldg'; b.style.width = w + 'px'; b.style.height = h + 'px'; b.style.setProperty('--bc', color); b.style.setProperty('--wo', windowOpacity); b.style.setProperty('--fd', (Math.random() * 5).toFixed(2) + 's'); if(neon) addNeon(b); return b; }
+  function buildLayer(container, { count, minW, maxW, minH, maxH, colorIdx, windowOpacity, neonChance }){ const frag = document.createDocumentFragment(); for(let i = 0; i < count; i++){ const w = minW + Math.random() * (maxW - minW); const h = minH + Math.random() * (maxH - minH); frag.appendChild(makeBuilding({ w, h, color: palette[colorIdx], windowOpacity, neon: Math.random() < neonChance })); } container.appendChild(frag); }
+  const layerFar = document.getElementById('layerFar'); const layerMid = document.getElementById('layerMid'); const layerNear = document.getElementById('layerNear');
+  buildLayer(layerFar, { count: 16, minW: 30, maxW: 60, minH: 90, maxH: 220, colorIdx: 0, windowOpacity: 0.25, neonChance: 0.1 });
+  buildLayer(layerMid, { count: 13, minW: 40, maxW: 85, minH: 140, maxH: 320, colorIdx: 1, windowOpacity: 0.4, neonChance: 0.3 });
+  buildLayer(layerNear, { count: 10, minW: 55, maxW: 110, minH: 200, maxH: 420, colorIdx: 2, windowOpacity: 0.55, neonChance: 0.45 });
+  window.addEventListener('mousemove', (e) => { const x = (e.clientX / window.innerWidth - 0.5); layerFar.style.transform = `translateX(${x * 10}px)`; layerMid.style.transform = `translateX(${x * 22}px)`; layerNear.style.transform = `translateX(${x * 38}px)`; });
+  const canvas = document.getElementById('snow'); const ctx = canvas.getContext('2d'); let W, H, flakes;
+  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; } window.addEventListener('resize', resize); resize();
+  flakes = Array.from({ length: 100 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 2 + 1, speedY: Math.random() * 0.8 + 0.4, speedX: Math.random() * 0.4 - 0.2, drift: Math.random() * Math.PI, opacity: Math.random() * 0.5 + 0.4 }));
+  function drawSnow(){ ctx.clearRect(0, 0, W, H); ctx.fillStyle = '#FFFFFF'; for(const f of flakes){ ctx.globalAlpha = f.opacity; ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2); ctx.fill(); f.y += f.speedY; f.x += f.speedX; if(f.y > H){ f.y = -5; f.x = Math.random() * W; } } requestAnimationFrame(drawSnow); } drawSnow();
 </script>
-
 </body>
 </html>
