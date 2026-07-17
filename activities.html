@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ผลงานและกิจกรรม | พอร์ตโฟลิโอ คณะบริหารธุรกิจ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night-top: #030B18; --night-mid: #0B2545; --night-low: #163A63;
+    --steel: #3A6EA5; --frost: #D8E9F5; --ice: #F4F9FD;
+    --white: #FFFFFF; --gold: #F3E3B8; --silver: #A9BFD6;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Prompt', sans-serif; background: var(--night-top); color: var(--frost);
+    overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  
+  /* ================= SKY & EFFECTS (แบบเดิมเป๊ะ) ================= */
+  .sky { position: fixed; inset: 0; z-index: -6; background: linear-gradient(180deg, var(--night-top) 0%, var(--night-mid) 55%, var(--night-low) 100%); background-size: 100% 220%; animation: skyDrift 26s ease-in-out infinite; }
+  @keyframes skyDrift { 0%,100% { background-position: 0% 0%; } 50% { background-position: 0% 30%; } }
+  .stars { position: fixed; inset: 0; z-index: -5; background-image: radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,.9), transparent 60%), radial-gradient(1px 1px at 28% 8%, rgba(255,255,255,.7), transparent 60%), radial-gradient(1.5px 1.5px at 44% 26%, rgba(255,255,255,.8), transparent 60%), radial-gradient(1.5px 1.5px at 77% 22%, rgba(255,255,255,.9), transparent 60%), radial-gradient(1px 1px at 53% 38%, rgba(255,255,255,.7), transparent 60%); opacity: 0.8; animation: twinkle 5s ease-in-out infinite alternate; }
+  @keyframes twinkle { 0% { opacity: .5; } 100% { opacity: 1; } }
+  .ground-mist { position: fixed; left: 0; right: 0; bottom: 0; height: 18vh; z-index: -2; background: linear-gradient(180deg, transparent, rgba(216,233,245,0.18)); pointer-events: none; }
+  canvas#snow { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+
+  /* ================= SKYLINE (แบบเดิมเป๊ะ) ================= */
+  .skyline { position: fixed; left: 0; right: 0; bottom: 0; height: 62vh; z-index: -4; pointer-events: none; }
+  .layer { position: absolute; left: -6%; right: -6%; bottom: 0; display: flex; align-items: flex-end; gap: 2vw; transition: transform 0.6s ease-out; }
+  .layer-far { opacity: 0.55; filter: blur(0.4px); } .layer-mid { opacity: 0.8; } .layer-near { opacity: 1; }
+  .bldg { position: relative; background: var(--bc, var(--night-low)); background-image: linear-gradient(var(--bc, var(--night-low)), var(--bc, var(--night-low))), repeating-linear-gradient(to right, transparent 0 9px, rgba(243, 227, 184, var(--wo,.35)) 9px 12px), repeating-linear-gradient(to bottom, transparent 0 13px, rgba(243, 227, 184, var(--wo,.35)) 13px 16px); background-blend-mode: normal, screen, screen; }
+  .bldg::after { content:''; position:absolute; inset:0; background-image: repeating-linear-gradient(to right, transparent 0 9px, rgba(255,255,255,0.9) 9px 12px), repeating-linear-gradient(to bottom, transparent 0 13px, rgba(255,255,255,0.9) 13px 16px); background-blend-mode: screen; opacity: 0; animation: flicker 4.5s ease-in-out infinite; animation-delay: var(--fd, 0s); mix-blend-mode: screen; }
+  @keyframes flicker { 0%, 40% { opacity: 0; } 45% { opacity: 0.55; } 55% { opacity: 0.15; } 62% { opacity: 0.6; } 100% { opacity: 0; } }
+  .spire { position:absolute; left: 50%; bottom: 100%; transform: translateX(-50%); width: 3px; background: var(--bc, var(--night-low)); }
+  .spire::before { content:''; position:absolute; top:-6px; left:50%; transform: translateX(-50%); width:6px; height:6px; border-radius:50%; background: var(--gold); box-shadow: 0 0 8px 2px rgba(243,227,184,.8); }
+  .neon-stripe { position:absolute; top: 12%; bottom: 12%; width: 3px; background: var(--nc, #7CE7FF); box-shadow: 0 0 6px 1.5px var(--nc, #7CE7FF), 0 0 16px 4px var(--nc, #7CE7FF); animation: neonPulse 3.2s ease-in-out infinite; animation-delay: var(--nd, 0s); }
+  .neon-stripe.left { left: 10%; } .neon-stripe.right { right: 10%; }
+  .neon-band { position:absolute; left: 14%; right: 14%; height: 3px; background: var(--nc, #FF7FBF); box-shadow: 0 0 6px 1.5px var(--nc, #FF7FBF), 0 0 16px 4px var(--nc, #FF7FBF); animation: neonPulse 2.6s ease-in-out infinite; animation-delay: var(--nd, 0s); }
+  .neon-sign { position:absolute; top: 18%; left: 50%; transform: translateX(-50%); width: 62%; height: 10px; border-radius: 3px; background: var(--nc, #FFC46B); box-shadow: 0 0 8px 2px var(--nc, #FFC46B), 0 0 22px 6px var(--nc, #FFC46B); animation: neonPulse 3.6s ease-in-out infinite; animation-delay: var(--nd, 0s); }
+  @keyframes neonPulse { 0%, 100% { opacity: 0.95; filter: brightness(1); } 45% { opacity: 0.55; filter: brightness(0.85); } 50% { opacity: 1; filter: brightness(1.2); } 78%{ opacity: 0.7; } }
+
+  /* ================= NAVIGATION BAR ================= */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 22px 6vw; background: rgba(3, 11, 24, 0.35); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .brand { font-family: 'Noto Serif Thai', serif; font-weight: 600; color: var(--white); font-size: 1.05rem; }
+  .brand span { color: var(--gold); font-weight: 400; }
+  .nav-links { display:flex; gap: 30px; list-style:none; }
+  .nav-links a { color: var(--frost); text-decoration: none; font-size: 0.9rem; position: relative; padding-bottom: 4px; transition: color 0.25s; }
+  .nav-links a.current { color: var(--gold); }
+  .nav-links a::after { content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background: var(--gold); transition: width 0.3s ease; }
+  .nav-links a:hover { color: var(--white); } .nav-links a:hover::after { width:100%; }
+  .nav-toggle { display:none; background:none; border:none; color:var(--white); font-size:1.6rem; cursor:pointer; }
+
+  /* ================= MAIN CONTENT LAYOUT ================= */
+  main { position: relative; z-index: 1; width: 100%; max-width: 950px; margin: 0 auto; padding: 140px 6vw 60px; flex-grow: 1; }
+  .page-title { font-family: 'Noto Serif Thai', serif; color: var(--white); font-size: 2.2rem; font-weight: 700; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+  .page-subtitle { color: var(--silver); font-size: 1rem; margin-bottom: 40px; }
+
+  /* ================= ACTIVITIES GRID & CARDS ================= */
+  .activities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 30px;
+  }
+  .act-card {
+    background: rgba(11, 37, 69, 0.4);
+    border: 1px solid rgba(216, 233, 245, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+  .act-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(243, 227, 184, 0.3);
+  }
+  .act-img {
+    width: 100%;
+    height: 200px;
+    background: rgba(3, 11, 24, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(216, 233, 245, 0.1);
+    position: relative;
+  }
+  .act-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .act-placeholder {
+    color: var(--silver);
+    font-size: 0.85rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .act-content {
+    padding: 22px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .act-tag {
+    align-self: flex-start;
+    font-size: 0.75rem;
+    background: rgba(243, 227, 184, 0.1);
+    color: var(--gold);
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(243, 227, 184, 0.2);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .act-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .act-desc {
+    color: var(--frost);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  
+  /* ================= NAVIGATION BUTTONS ================= */
+  .nav-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin: 60px auto 20px;
+    width: 100%;
+    max-width: 520px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 10;
+  }
+  .btn-nav {
+    flex: 1;
+    text-align: center;
+    padding: 14px 30px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #F3E3B8 0%, #E4D09B 100%);
+    color: #030B18;
+    box-shadow: 0 4px 15px rgba(243, 227, 184, 0.2), 0 0 0 1px rgba(243, 227, 184, 0.1);
+  }
+  .btn-primary::after { content: '→'; font-weight: bold; transition: transform 0.2s; }
+  .btn-primary:hover {
+    transform: translateY(-4px);
+    background: #FFFFFF;
+    color: #030B18;
+    box-shadow: 0 12px 28px rgba(243, 227, 184, 0.45), 0 0 20px rgba(243, 227, 184, 0.2);
+  }
+  .btn-primary:hover::after { transform: translateX(4px); }
+  
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: #D8E9F5;
+    border: 1px solid rgba(216, 233, 245, 0.25);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+  .btn-secondary::before { content: '←'; font-weight: bold; transition: transform 0.2s; }
+  .btn-secondary:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.15);
+    color: #FFFFFF;
+    border-color: rgba(216, 233, 245, 0.6);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 0 15px rgba(216, 233, 245, 0.1);
+  }
+  .btn-secondary:hover::before { transform: translateX(-4px); }
+
+  footer.site-end { text-align: center; padding: 20px 6vw 20px; font-size: 0.76rem; color: rgba(216,233,245,0.4); position: relative; z-index: 1; }
+
+  /* Responsive Design สำหรับหน้าจอเล็ก */
+  @media (max-width: 860px) {
+    .nav-links { position: fixed; top:0; right:0; height:100vh; width:70vw; background: rgba(3,11,24,0.97); flex-direction: column; justify-content:center; align-items:flex-start; padding: 40px; gap: 26px; transform: translateX(100%); transition: transform 0.35s ease; }
+    .nav-links.open { transform: translateX(0); } .nav-toggle { display:block; }
+    .activities-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .nav-button-container { gap: 12px; margin-top: 45px; }
+    .btn-nav { padding: 12px 20px; font-size: 0.88rem; }
+    .act-content { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sky"></div><div class="stars"></div>
+<div class="skyline" id="skyline">
+  <div class="layer layer-far" id="layerFar"></div>
+  <div class="layer layer-mid" id="layerMid"></div>
+  <div class="layer layer-near" id="layerNear"></div>
+</div>
+<div class="ground-mist"></div><canvas id="snow"></canvas>
+
+<nav>
+  <div class="brand">พอร์ตโฟลิโอ<span> · Business Admin</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">หน้าแรก</a></li>
+    <li><a href="personal.html">เกี่ยวกับฉัน</a></li>
+    <li><a href="education.html">การศึกษา</a></li>
+    <li><a href="activities.html" class="current">ผลงาน</a></li>
+    <li><a href="contact.html">ติดต่อ</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle">☰</button>
+</nav>
+
+<main>
+  <h1 class="page-title">ผลงานและกิจกรรม</h1>
+  <p class="page-subtitle">การเข้าร่วมกิจกรรมนอกหลักสูตรและโปรเจกต์สร้างสรรค์เพื่อพัฒนาทักษะรอบด้าน</p>
+
+  <div class="activities-grid">
+    
+    <!-- กิจกรรมที่ 1: SWU Open House -->
+    <div class="act-card">
+      <div class="act-img">
+        <img src="act1.jpg" alt="SWU Open House" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="act-placeholder" style="display:none;">
+          <span>🏫</span><span>ยังไม่ได้ใส่รูปกิจกรรม (ชื่อไฟล์ act1.jpg)</span>
+        </div>
+      </div>
+      <div class="act-content">
+        <div>
+          <span class="act-tag">แนะแนวการศึกษา</span>
+          <h3 class="act-title">เข้าร่วมงานเปิดบ้านมหาวิทยาลัยศรีนครินทรวิโรฒ (SWU Open House)</h3>
+          <p class="act-desc">เดินทางไปศึกษาแนวทางการเรียนต่อและการเตรียมความพร้อมสู่ระดับมหาวิทยาลัย เพื่อเก็บข้อมูลหลักสูตรและค้นหาแรงบันดาลใจในคณะที่สนใจ</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- กิจกรรมที่ 2: 3D Model Project -->
+    <div class="act-card">
+      <div class="act-img">
+        <img src="act2.jpg" alt="3D Bedroom Model" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="act-placeholder" style="display:none;">
+          <span>📐</span><span>ยังไม่ได้ใส่รูปกิจกรรม (ชื่อไฟล์ act2.jpg)</span>
+        </div>
+      </div>
+      <div class="act-content">
+        <div>
+          <span class="act-tag">ทักษะและการออกแบบ</span>
+          <h3 class="act-title">โปรเจกต์ออกแบบโมเดล 3D "ห้องนอนในฝัน"</h3>
+          <p class="act-desc">ใช้โปรแกรม SketchUp ในการจำลองและออกแบบห้องนอน นำเสนอการเลือกใช้วัสดุสำหรับทำเฟอร์นิเจอร์และการจัดสรรพื้นที่ใช้สอยอย่างมีประสิทธิภาพ</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- กิจกรรมที่ 3: Futsal Sport -->
+    <div class="act-card">
+      <div class="act-img">
+        <img src="act3.jpg" alt="Futsal Activity" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="act-placeholder" style="display:none;">
+          <span>⚽</span><span>ยังไม่ได้ใส่รูปกิจกรรม (ชื่อไฟล์ act3.jpg)</span>
+        </div>
+      </div>
+      <div class="act-content">
+        <div>
+          <span class="act-tag">กีฬาและสุขภาพ</span>
+          <h3 class="act-title">พัฒนาทักษะด้านกีฬาและการทำงานทีมผ่านฟุตซอล</h3>
+          <p class="act-desc">เข้าร่วมฝึกซ้อมและเล่นกีฬาฟุตซอล เพื่อส่งเสริมการพัฒนาสมรรถภาพทางกาย ฝึกฝนความกล้าคิดกล้าตัดสินใจ และการสื่อสารร่วมกับผู้อื่นในทีม</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- กิจกรรมที่ 4: เพิ่มเติมได้ตามชอบ -->
+    <div class="act-card">
+      <div class="act-img">
+        <img src="act4.jpg" alt="กิจกรรมอื่นๆ" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="act-placeholder" style="display:none;">
+          <span>✨</span><span>ยังไม่ได้ใส่รูปกิจกรรม (ชื่อไฟล์ act4.jpg)</span>
+        </div>
+      </div>
+      <div class="act-content">
+        <div>
+          <span class="act-tag">การเรียนรู้</span>
+          <h3 class="act-title">กิจกรรมและผลงานพัฒนาตนเอง</h3>
+          <p class="act-desc">เข้าร่วมกิจกรรมต่าง ๆ ภายในโรงเรียนและชุมชนเพื่อเพิ่มพูนประสบการณ์ ฝึกฝนทักษะการเป็นผู้นำ และการแก้ไขปัญหาเฉพาะหน้า</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ปุ่มนำทางดีไซน์พรีเมียม -->
+  <div class="nav-button-container">
+    <a href="education.html" class="btn-nav btn-secondary">ย้อนกลับ</a>
+    <a href="contact.html" class="btn-nav btn-primary">ถัดไป</a>
+  </div>
+</main>
+
+<footer class="site-end">© 2569 ณัฐชนน · พอร์ตโฟลิโอคณะบริหารธุรกิจ</footer>
+
+<!-- ระบบเมืองและเอฟเฟกต์ (แบบเดิมเป๊ะ) -->
+<script>
+  const navToggle = document.getElementById('navToggle'); const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  const palette = ['#0B2545', '#13315C', '#163A63', '#1C4570']; const neonColors = ['#7CE7FF', '#FF7FBF', '#FFC46B', '#9B8CFF'];
+  function addNeon(b){ const el = document.createElement('div'); const color = neonColors[Math.floor(Math.random() * neonColors.length)]; el.style.setProperty('--nc', color); el.style.setProperty('--nd', (Math.random() * 3).toFixed(2) + 's'); if(Math.random() < 0.4){ el.className = 'neon-stripe left'; } else { el.className = 'neon-band'; el.style.top = '40%'; } b.appendChild(el); }
+  function makeBuilding({ w, h, color, windowOpacity, neon }){ const b = document.createElement('div'); b.className = 'bldg'; b.style.width = w + 'px'; b.style.height = h + 'px'; b.style.setProperty('--bc', color); b.style.setProperty('--wo', windowOpacity); b.style.setProperty('--fd', (Math.random() * 5).toFixed(2) + 's'); if(neon) addNeon(b); return b; }
+  function buildLayer(container, { count, minW, maxW, minH, maxH, colorIdx, windowOpacity, neonChance }){ const frag = document.createDocumentFragment(); for(let i = 0; i < count; i++){ const w = minW + Math.random() * (maxW - minW); const h = minH + Math.random() * (maxH - minH); frag.appendChild(makeBuilding({ w, h, color: palette[colorIdx], windowOpacity, neon: Math.random() < neonChance })); } container.appendChild(frag); }
+  const layerFar = document.getElementById('layerFar'); const layerMid = document.getElementById('layerMid'); const layerNear = document.getElementById('layerNear');
+  buildLayer(layerFar, { count: 16, minW: 30, maxW: 60, minH: 90, maxH: 220, colorIdx: 0, windowOpacity: 0.25, neonChance: 0.1 });
+  buildLayer(layerMid, { count: 13, minW: 40, maxW: 85, minH: 140, maxH: 320, colorIdx: 1, windowOpacity: 0.4, neonChance: 0.3 });
+  buildLayer(layerNear, { count: 10, minW: 55, maxW: 110, minH: 200, maxH: 420, colorIdx: 2, windowOpacity: 0.55, neonChance: 0.45 });
+  window.addEventListener('mousemove', (e) => { const x = (e.clientX / window.innerWidth - 0.5); layerFar.style.transform = `translateX(${x * 10}px)`; layerMid.style.transform = `translateX(${x * 22}px)`; layerNear.style.transform = `translateX(${x * 38}px)`; });
+  const canvas = document.getElementById('snow'); const ctx = canvas.getContext('2d'); let W, H, flakes;
+  function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; } window.addEventListener('resize', resize); resize();
+  flakes = Array.from({ length: 100 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 2 + 1, speedY: Math.random() * 0.8 + 0.4, speedX: Math.random() * 0.4 - 0.2, drift: Math.random() * Math.PI, opacity: Math.random() * 0.5 + 0.4 }));
+  function drawSnow(){ ctx.clearRect(0, 0, W, H); ctx.fillStyle = '#FFFFFF'; for(const f of flakes){ ctx.globalAlpha = f.opacity; ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2); ctx.fill(); f.y += f.speedY; f.x += f.speedX; if(f.y > H){ f.y = -5; f.x = Math.random() * W; } } requestAnimationFrame(drawSnow); } drawSnow();
+</script>
+</body>
+</html>
