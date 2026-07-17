@@ -10,8 +10,8 @@
 <style>
   :root {
     --night-top: #030B18; --night-mid: #0B2545; --night-low: #163A63;
-    --steel: #3A6EA5; --frost: #D8E9F5; --ice: #F4F9FD;
-    --white: #FFFFFF; --gold: #F3E3B8; --silver: #A9BFD6;
+    --steel: #3A6EA5; --frost: #F0F7FD; --ice: #F4F9FD;
+    --white: #FFFFFF; --gold: #FFEAA7; --silver: #D1E2F2;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior: smooth; }
@@ -20,7 +20,7 @@
     overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between;
   }
   
-  /* ================= SKY & EFFECTS (แบบเดิมเป๊ะ) ================= */
+  /* ================= SKY & EFFECTS ================= */
   .sky { position: fixed; inset: 0; z-index: -6; background: linear-gradient(180deg, var(--night-top) 0%, var(--night-mid) 55%, var(--night-low) 100%); background-size: 100% 220%; animation: skyDrift 26s ease-in-out infinite; }
   @keyframes skyDrift { 0%,100% { background-position: 0% 0%; } 50% { background-position: 0% 30%; } }
   .stars { position: fixed; inset: 0; z-index: -5; background-image: radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,.9), transparent 60%), radial-gradient(1px 1px at 28% 8%, rgba(255,255,255,.7), transparent 60%), radial-gradient(1.5px 1.5px at 44% 26%, rgba(255,255,255,.8), transparent 60%), radial-gradient(1.5px 1.5px at 77% 22%, rgba(255,255,255,.9), transparent 60%), radial-gradient(1px 1px at 53% 38%, rgba(255,255,255,.7), transparent 60%); opacity: 0.8; animation: twinkle 5s ease-in-out infinite alternate; }
@@ -28,7 +28,10 @@
   .ground-mist { position: fixed; left: 0; right: 0; bottom: 0; height: 18vh; z-index: -2; background: linear-gradient(180deg, transparent, rgba(216,233,245,0.18)); pointer-events: none; }
   canvas#snow { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 
-  /* ================= SKYLINE (แบบเดิมเป๊ะ) ================= */
+  /* ================= MOON DESIGN ================= */
+  .moon { position: fixed; top: 18vh; right: 10vw; width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #FFFDF6 0%, #FDF4CD 45%, #EAD397 100%); box-shadow: 0 0 35px 8px rgba(243, 227, 184, 0.45), inset -10px -10px 25px rgba(0,0,0,0.12); z-index: -3; }
+
+  /* ================= SKYLINE ================= */
   .skyline { position: fixed; left: 0; right: 0; bottom: 0; height: 62vh; z-index: -4; pointer-events: none; }
   .layer { position: absolute; left: -6%; right: -6%; bottom: 0; display: flex; align-items: flex-end; gap: 2vw; transition: transform 0.6s ease-out; }
   .layer-far { opacity: 0.55; filter: blur(0.4px); } .layer-mid { opacity: 0.8; } .layer-near { opacity: 1; }
@@ -44,7 +47,7 @@
   @keyframes neonPulse { 0%, 100% { opacity: 0.95; filter: brightness(1); } 45% { opacity: 0.55; filter: brightness(0.85); } 50% { opacity: 1; filter: brightness(1.2); } 78%{ opacity: 0.7; } }
 
   /* ================= NAVIGATION BAR ================= */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 22px 6vw; background: rgba(3, 11, 24, 0.35); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 22px 6vw; background: rgba(3, 11, 24, 0.45); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
   .brand { font-family: 'Noto Serif Thai', serif; font-weight: 600; color: var(--white); font-size: 1.05rem; }
   .brand span { color: var(--gold); font-weight: 400; }
   .nav-links { display:flex; gap: 30px; list-style:none; }
@@ -54,172 +57,105 @@
   .nav-links a:hover { color: var(--white); } .nav-links a:hover::after { width:100%; }
   .nav-toggle { display:none; background:none; border:none; color:var(--white); font-size:1.6rem; cursor:pointer; }
 
-  /* ================= MAIN CONTENT LAYOUT ================= */
-  main { position: relative; z-index: 1; width: 100%; max-width: 900px; margin: 0 auto; padding: 140px 6vw 60px; flex-grow: 1; }
-  .page-title { font-family: 'Noto Serif Thai', serif; color: var(--white); font-size: 2.2rem; font-weight: 700; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-  .page-subtitle { color: var(--silver); font-size: 1rem; margin-bottom: 40px; }
-
-  /* ================= NEW BIOGRAPHY LAYOUT ================= */
-  .profile-container {
-    display: flex;
-    gap: 30px;
-    align-items: stretch;
-    margin-bottom: 24px;
-  }
+  /* ================= MAIN WRAPPER (TWO COLUMN GRID) ================= */
+  main { position: relative; z-index: 1; width: 100%; max-width: 1000px; margin: 0 auto; padding: 130px 4vw 60px; flex-grow: 1; }
   
-  /* กล่องรูปภาพด้านซ้าย */
-  .profile-image-box {
-    flex: 0 0 280px;
-    background: rgba(11, 37, 69, 0.4);
-    border: 1px solid rgba(216, 233, 245, 0.15);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-    padding: 10px;
-  }
-  .profile-image-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  /* ข้อความจำลองถ้ายยังไม่มีการใส่รูป */
-  .profile-placeholder {
-    color: var(--silver);
-    font-size: 0.9rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  .page-title { font-family: 'Noto Serif Thai', serif; color: var(--white); font-size: 2.1rem; font-weight: 700; margin-bottom: 30px; text-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+  
+  .profile-grid { display: block; }
+  .profile-left { display: block; width: 100%; max-width: 320px; margin: 0 auto 30px; text-align: center; }
+  .profile-right { display: block; width: 100%; }
+  
+  /* รองรับคอมพิวเตอร์และแท็บเล็ต */
+  @media (min-width: 768px) {
+    .profile-grid { display: table; width: 100%; table-layout: fixed; }
+    .profile-left { display: table-cell; width: 35%; vertical-align: top; padding-right: 40px; }
+    .profile-right { display: table-cell; width: 65%; vertical-align: top; }
   }
 
-  /* กล่องข้อมูลด้านขวา */
-  .profile-info-box {
-    flex: 1;
-    background: rgba(11, 37, 69, 0.4);
-    border: 1px solid rgba(216, 233, 245, 0.15);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  /* ================= PHOTO FRAME (Glassmorphic) ================= */
+  .photo-frame {
+    width: 100%; max-width: 280px; margin: 0 auto; aspect-ratio: 1/1; border-radius: 20px;
+    background: rgba(11, 37, 69, 0.4); border: 1px solid rgba(255, 234, 167, 0.25);
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5); padding: 12px; transition: all 0.3s ease;
   }
-  .info-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: var(--white);
-    margin-bottom: 20px;
-    border-bottom: 2px solid rgba(243, 227, 184, 0.3);
-    padding-bottom: 8px;
+  .photo-frame:hover { transform: translateY(-5px); border-color: rgba(255, 234, 167, 0.5); box-shadow: 0 15px 40px rgba(255,234,167,0.15); }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+  
+  /* ตัวแทนกรณีไม่มีรูปภาพ */
+  .photo-placeholder {
+    width: 100%; height: 100%; border-radius: 12px; background: rgba(3, 11, 24, 0.5);
+    display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--silver); gap: 10px;
   }
-  .info-grid {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    row-gap: 14px;
-    column-gap: 16px;
-    font-size: 0.98rem;
-    line-height: 1.5;
-  }
-  .info-label {
-    color: var(--gold);
-    font-weight: 500;
-    white-space: nowrap;
-  }
-  .info-value {
-    color: var(--frost);
-  }
+  .photo-placeholder span { font-size: 0.85rem; letter-spacing: 0.5px; }
 
-  /* ================= NEW NAVIGATION BUTTONS DECORATION ================= */
-  .nav-button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 24px;
-    margin: 60px auto 20px;
-    width: 100%;
-    max-width: 520px;
-    padding: 0 20px;
-    position: relative;
-    z-index: 10;
+  /* ================= GLASS BOXES (คุมโทนเดียวกับหน้า Contact) ================= */
+  .glass-box {
+    background: rgba(11, 37, 69, 0.4);
+    border: 1px solid rgba(255, 234, 167, 0.2);
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    border-radius: 18px; padding: 26px 30px; margin-bottom: 25px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
-  .btn-nav {
-    flex: 1;
-    text-align: center;
-    padding: 14px 30px;
-    border-radius: 999px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    text-decoration: none;
-    letter-spacing: 0.5px;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    white-space: nowrap;
+  .glass-box:hover {
+    transform: translateY(-3px); border-color: rgba(255, 234, 167, 0.45);
+    box-shadow: 0 12px 35px rgba(255, 234, 167, 0.1);
   }
-  .btn-primary {
-    background: linear-gradient(135deg, #F3E3B8 0%, #E4D09B 100%);
-    color: #030B18;
-    box-shadow: 0 4px 15px rgba(243, 227, 184, 0.2), 0 0 0 1px rgba(243, 227, 184, 0.1);
-  }
+  .box-title { font-size: 1.15rem; font-weight: 600; color: var(--white); margin-bottom: 18px; border-left: 4px solid var(--gold); padding-left: 10px; letter-spacing: 0.5px; }
+
+  /* ตารางข้อมูลส่วนตัว */
+  .info-table { width: 100%; border-collapse: collapse; }
+  .info-table td { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.95rem; vertical-align: top; }
+  .info-table tr:last-child td { border-bottom: none; }
+  .info-label { width: 32%; color: var(--gold); font-weight: 500; }
+  .info-value { width: 68%; color: var(--frost); }
+
+  /* กล่องความสามารถพิเศษดีไซน์ย่อยภายใน */
+  .talent-list { display: block; }
+  .talent-item { display: block; margin-bottom: 14px; }
+  .talent-item:last-child { margin-bottom: 0; }
+  .talent-header { color: var(--white); font-weight: 500; font-size: 0.95rem; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+  .talent-header span.icon { color: var(--gold); }
+  .talent-desc { font-size: 0.88rem; color: var(--silver); line-height: 1.5; padding-left: 20px; }
+
+  /* กล่องคติประจำใจสไตล์หรูหราพิเศษ */
+  .motto-box { text-align: center; background: linear-gradient(135deg, rgba(11, 37, 69, 0.5) 0%, rgba(3, 11, 24, 0.6) 100%); border-color: rgba(255, 234, 167, 0.3); }
+  .motto-text { font-family: 'Noto Serif Thai', serif; font-size: 1.25rem; font-weight: 600; color: var(--gold); line-height: 1.6; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(255,234,167,0.2); }
+  .motto-sub { font-size: 0.85rem; color: var(--silver); letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ================= BUTTONS NAVIGATION ================= */
+  .nav-button-container { display: flex; justify-content: center; align-items: center; gap: 24px; margin: 40px auto 10px; width: 100%; max-width: 520px; }
+  .btn-nav { flex: 1; text-align: center; padding: 13px 30px; border-radius: 999px; font-size: 0.95rem; font-weight: 500; text-decoration: none; letter-spacing: 0.5px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+  .btn-primary { background: linear-gradient(135deg, #FFEAA7 0%, #E4D09B 100%); color: #030B18; box-shadow: 0 4px 15px rgba(255, 234, 167, 0.2); }
   .btn-primary::after { content: '→'; font-weight: bold; transition: transform 0.2s; }
-  .btn-primary:hover {
-    transform: translateY(-4px);
-    background: #FFFFFF;
-    color: #030B18;
-    box-shadow: 0 12px 28px rgba(243, 227, 184, 0.45), 0 0 20px rgba(243, 227, 184, 0.2);
-  }
+  .btn-primary:hover { transform: translateY(-4px); background: #FFFFFF; color: #030B18; box-shadow: 0 12px 28px rgba(255, 234, 167, 0.45); }
   .btn-primary:hover::after { transform: translateX(4px); }
-  
-  .btn-secondary {
-    background: rgba(255, 255, 255, 0.05);
-    color: #D8E9F5;
-    border: 1px solid rgba(216, 233, 245, 0.25);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  }
+  .btn-secondary { background: rgba(255, 255, 255, 0.05); color: #D8E9F5; border: 1px solid rgba(216, 233, 245, 0.25); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
   .btn-secondary::before { content: '←'; font-weight: bold; transition: transform 0.2s; }
-  .btn-secondary:hover {
-    transform: translateY(-4px);
-    background: rgba(255, 255, 255, 0.15);
-    color: #FFFFFF;
-    border-color: rgba(216, 233, 245, 0.6);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 0 15px rgba(216, 233, 245, 0.1);
-  }
+  .btn-secondary:hover { transform: translateY(-4px); background: rgba(255, 255, 255, 0.15); color: #FFFFFF; border-color: rgba(216, 233, 245, 0.6); }
   .btn-secondary:hover::before { transform: translateX(-4px); }
 
-  footer.site-end { text-align: center; padding: 20px 6vw 20px; font-size: 0.76rem; color: rgba(216,233,245,0.4); position: relative; z-index: 1; }
+  footer.site-end { text-align: center; padding: 20px 6vw; font-size: 0.76rem; color: rgba(216,233,245,0.4); position: relative; z-index: 1; }
 
-  /* Responsive Design สำหรับหน้าจอเล็ก */
-  @media (max-width: 860px) {
+  /* Responsive Design */
+  @media (max-width: 767px) {
     .nav-links { position: fixed; top:0; right:0; height:100vh; width:70vw; background: rgba(3,11,24,0.97); flex-direction: column; justify-content:center; align-items:flex-start; padding: 40px; gap: 26px; transform: translateX(100%); transition: transform 0.35s ease; }
     .nav-links.open { transform: translateX(0); } .nav-toggle { display:block; }
-    .profile-container { flex-direction: column; align-items: center; }
-    .profile-image-box { flex: 0 0 280px; width: 100%; max-width: 280px; height: 280px; }
-    .profile-info-box { width: 100%; }
+    .moon { width: 90px; height: 90px; top: 14vh; right: 6vw; }
+    .glass-box { padding: 20px 22px; }
   }
   @media (max-width: 480px) {
-    .nav-button-container { gap: 12px; margin-top: 45px; }
-    .btn-nav { padding: 12px 20px; font-size: 0.88rem; }
-    .profile-info-box { padding: 20px; }
-    .info-grid { grid-template-columns: 1fr; row-gap: 8px; }
-    .info-label { margin-bottom: -4px; }
+    .info-label { width: 40%; } .info-value { width: 60%; }
+    .nav-button-container { gap: 12px; } .btn-nav { padding: 12px 18px; font-size: 0.88rem; }
   }
 </style>
 </head>
 <body>
 
 <div class="sky"></div><div class="stars"></div>
+<div class="moon"></div>
 <div class="skyline" id="skyline">
   <div class="layer layer-far" id="layerFar"></div>
   <div class="layer layer-mid" id="layerMid"></div>
@@ -241,45 +177,60 @@
 
 <main>
   <h1 class="page-title">ประวัติส่วนตัว</h1>
- 
-
-  <!-- ส่วนเลย์เอาต์ใหม่: ซ้ายรูป - ขวาข้อมูลส่วนตัว -->
-  <div class="profile-container">
+  
+  <div class="profile-grid">
+    <div class="profile-left">
+      <div class="photo-frame">
+        <div class="photo-placeholder">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>[ วางรูปโปรไฟล์ ]</span>
+        </div>
+      </div>
+    </div>
     
-    <!-- ฝั่งซ้าย: กล่องรูปภาพโปรไฟล์ -->
-    <div class="profile-image-box">
+    <div class="profile-right">
       
-      <img src="images/IMG_0641.jpeg" alt="รูปโปรไฟล์แอนฟิลด์" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-      <div class="profile-placeholder" style="display:none;">
-        <span>📷</span>
-     
+      <div class="glass-box">
+        <h2 class="box-title">ข้อมูลส่วนตัว</h2>
+        <table class="info-table">
+          <tr>
+            <td class="info-label">ชื่อ-นามสกุล</td>
+            <td class="info-value">นายอติรุจ ชูพลกรัง</td>
+          </tr>
+          <tr>
+            <td class="info-label">ชื่อเล่น</td>
+            <td class="info-value">ฮอล</td>
+          </tr>
+          <tr>
+            <td class="info-label">อายุ</td>
+            <td class="info-value">18 ปี</td>
+          </tr>
+          <tr>
+            <td class="info-label">วันเดือนปีเกิด</td>
+            <td class="info-value">29 เมษายน 2551</td>
+          </tr>
+        </table>
       </div>
-    </div>
-    
-    <!-- ฝั่งขวา: กล่องข้อมูลส่วนตัว -->
-    <div class="profile-info-box">
-      <h2 class="info-title">ข้อมูลส่วนตัว</h2>
-      <div class="info-grid">
-        <div class="info-label">ชื่อ-นามสกุล :</div>
-        <div class="info-value">นายอดิรุจ ชูพลกรัง</div>
-        
-        <div class="info-label">ชื่อเล่น :</div>
-        <div class="info-value">ฮอล</div>
-        
-        <div class="info-label">อายุ :</div>
-        <div class="info-value">18 ปี</div>
-        
-        <div class="info-label">วันเดือนปีเกิด :</div>
-        <div class="info-value">29 เมษายน 2551</div>
-        
-        <div class="info-label">ความสามารถพิเศษ :</div>
-        <div class="info-value">เล่นกีฬาตระกร้อเก่งที่สู๊ด</div>
+      
+      <div class="glass-box">
+        <h2 class="box-title">ความสามารถพิเศษ & ทักษะ</h2>
+        <div class="talent-list">
+          <div class="talent-item">
+            <div class="talent-header"><span class="icon">⚽</span> เซปักตะกร้อ & ฟุตซอล (ระดับเชี่ยวชาญ)</div>
+            <div class="talent-desc">ทักษะการเล่นที่ว่องไว แม่นยำ และโดดเด่นสะดุดตา เสริมสร้างทักษะการทำงานร่วมกันเป็นทีม การวางกลยุทธ์ และการตัดสินใจภายใต้สภาวะกดดันได้อย่างดีเยี่ยม</div>
+          </div>
+          
+        </div>
       </div>
-    </div>
 
+      <div class="glass-box motto-box">
+        <div class="motto-text">"ความสำเร็จไม่ได้สร้างได้ด้วยตัวคนเดียว แต่เกิดจากความร่วมมือและหัวใจที่ไม่ยอมแพ้"</div>
+        
+      </div>
+      
+    </div>
   </div>
 
-  <!-- ปุ่มนำทางดีไซน์พรีเมียม -->
   <div class="nav-button-container">
     <a href="index.html" class="btn-nav btn-secondary">ย้อนกลับ</a>
     <a href="education.html" class="btn-nav btn-primary">ถัดไป</a>
@@ -288,7 +239,6 @@
 
 
 
-<!-- ระบบเมืองและเอฟเฟกต์ (แบบเดิมเป๊ะ) -->
 <script>
   const navToggle = document.getElementById('navToggle'); const navLinks = document.getElementById('navLinks');
   navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
