@@ -1,19 +1,185 @@
-<!-- คัดลอกโค้ดนี้ไปใส่ต่อท้ายเนื้อหาในไฟล์ personal.html ก่อนปิดแท็ก </main> -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เกี่ยวกับฉัน | พอร์ตโฟลิโอ คณะบริหารธุรกิจ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  .nav-button-container { display: flex; justify-content: center; align-items: center; gap: 24px; margin: 60px auto 40px; width: 100%; max-width: 520px; padding: 0 20px; position: relative; z-index: 10; }
-  .btn-nav { flex: 1; text-align: center; padding: 14px 30px; border-radius: 999px; font-size: 0.95rem; font-weight: 500; text-decoration: none; letter-spacing: 0.5px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; }
-  .btn-primary { background: linear-gradient(135deg, #F3E3B8 0%, #E4D09B 100%); color: #030B18; box-shadow: 0 4px 15px rgba(243, 227, 184, 0.2), 0 0 0 1px rgba(243, 227, 184, 0.1); }
-  .btn-primary::after { content: '→'; font-weight: bold; transition: transform 0.2s; }
-  .btn-primary:hover { transform: translateY(-4px); background: #FFFFFF; color: #030B18; box-shadow: 0 12px 28px rgba(243, 227, 184, 0.45), 0 0 20px rgba(243, 227, 184, 0.2); }
-  .btn-primary:hover::after { transform: translateX(4px); }
-  .btn-secondary { background: rgba(255, 255, 255, 0.05); color: #D8E9F5; border: 1px solid rgba(216, 233, 245, 0.25); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
-  .btn-secondary::before { content: '←'; font-weight: bold; transition: transform 0.2s; }
-  .btn-secondary:hover { transform: translateY(-4px); background: rgba(255, 255, 255, 0.15); color: #FFFFFF; border-color: rgba(216, 233, 245, 0.6); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 0 15px rgba(216, 233, 245, 0.1); }
-  .btn-secondary:hover::before { transform: translateX(-4px); }
-  @media (max-width: 480px) { .nav-button-container { gap: 12px; margin-top: 45px; } .btn-nav { padding: 12px 20px; font-size: 0.88rem; } }
-</style>
+  :root {
+    --night-top: #030B18; --night-mid: #0B2545; --night-low: #163A63;
+    --steel: #3A6EA5; --frost: #D8E9F5; --ice: #F4F9FD;
+    --white: #FFFFFF; --gold: #F3E3B8; --silver: #A9BFD6;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Prompt', sans-serif; background: var(--night-top); color: var(--frost);
+    overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  
+  /* ================= BACKGROUND & SKY EFFECTS ================= */
+  .sky { position: fixed; inset: 0; z-index: -6; background: linear-gradient(180deg, var(--night-top) 0%, var(--night-mid) 55%, var(--night-low) 100%); background-size: 100% 220%; animation: skyDrift 26s ease-in-out infinite; }
+  @keyframes skyDrift { 0%,100% { background-position: 0% 0%; } 50% { background-position: 0% 30%; } }
+  .stars { position: fixed; inset: 0; z-index: -5; background-image: radial-gradient(1.5px 1.5px at 15% 12%, rgba(255,255,255,.9), transparent 60%), radial-gradient(1px 1px at 35% 25%, rgba(255,255,255,.7), transparent 60%), radial-gradient(1.5px 1.5px at 65% 18%, rgba(255,255,255,.8), transparent 60%), radial-gradient(1.5px 1.5px at 85% 30%, rgba(255,255,255,.9), transparent 60%); opacity: 0.8; }
+  .ground-mist { position: fixed; left: 0; right: 0; bottom: 0; height: 18vh; z-index: -2; background: linear-gradient(180deg, transparent, rgba(216,233,245,0.08)); pointer-events: none; }
 
-<div class="nav-button-container">
-  <a href="index.html" class="btn-nav btn-secondary">ย้อนกลับ</a>
-  <a href="education.html" class="btn-nav btn-primary">ถัดไป</a>
-</div>
+  /* ================= NAVIGATION BAR ================= */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; justify-content: space-between; align-items: center; padding: 22px 6vw; background: rgba(3, 11, 24, 0.45); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .brand { font-family: 'Noto Serif Thai', serif; font-weight: 600; color: var(--white); font-size: 1.05rem; }
+  .brand span { color: var(--gold); font-weight: 400; }
+  .nav-links { display:flex; gap: 30px; list-style:none; }
+  .nav-links a { color: var(--frost); text-decoration: none; font-size: 0.9rem; position: relative; padding-bottom: 4px; transition: color 0.25s; }
+  .nav-links a.current { color: var(--gold); }
+  .nav-links a::after { content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background: var(--gold); transition: width 0.3s ease; }
+  .nav-links a:hover { color: var(--white); } .nav-links a:hover::after { width:100%; }
+  .nav-toggle { display:none; background:none; border:none; color:var(--white); font-size:1.6rem; cursor:pointer; }
+
+  /* ================= MAIN CONTENT LAYOUT ================= */
+  main { position: relative; z-index: 1; width: 100%; max-width: 900px; margin: 0 auto; padding: 140px 6vw 60px; flex-grow: 1; }
+  .page-title { font-family: 'Noto Serif Thai', serif; color: var(--white); font-size: 2.2rem; font-weight: 700; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+  .page-subtitle { color: var(--silver); font-size: 1rem; margin-bottom: 40px; }
+
+  /* ================= TALENT PANEL & CARDS ================= */
+  .panel { background: rgba(11, 37, 69, 0.4); border: 1px solid rgba(216, 233, 245, 0.15); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 16px; padding: 30px; margin-bottom: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+  .talent-card { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+  .talent-card:last-child { margin-bottom: 0; }
+  .talent-header { display: flex; align-items: center; gap: 12px; }
+  .talent-icon { font-size: 1.3rem; background: rgba(243, 227, 184, 0.1); width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 8px; color: var(--gold); border: 1px solid rgba(243, 227, 184, 0.2); }
+  .talent-title { font-size: 1.15rem; font-weight: 600; color: var(--white); }
+  .talent-desc { color: var(--frost); font-size: 0.95rem; line-height: 1.7; padding-left: 2px; }
+
+  /* ================= NEW NAVIGATION BUTTONS DECORATION ================= */
+  .nav-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin: 60px auto 20px;
+    width: 100%;
+    max-width: 520px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 10;
+  }
+  .btn-nav {
+    flex: 1;
+    text-align: center;
+    padding: 14px 30px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #F3E3B8 0%, #E4D09B 100%);
+    color: #030B18;
+    box-shadow: 0 4px 15px rgba(243, 227, 184, 0.2), 0 0 0 1px rgba(243, 227, 184, 0.1);
+  }
+  .btn-primary::after { content: '→'; font-weight: bold; transition: transform 0.2s; }
+  .btn-primary:hover {
+    transform: translateY(-4px);
+    background: #FFFFFF;
+    color: #030B18;
+    box-shadow: 0 12px 28px rgba(243, 227, 184, 0.45), 0 0 20px rgba(243, 227, 184, 0.2);
+  }
+  .btn-primary:hover::after { transform: translateX(4px); }
+  
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: #D8E9F5;
+    border: 1px solid rgba(216, 233, 245, 0.25);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+  .btn-secondary::before { content: '←'; font-weight: bold; transition: transform 0.2s; }
+  .btn-secondary:hover {
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.15);
+    color: #FFFFFF;
+    border-color: rgba(216, 233, 245, 0.6);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45), 0 0 15px rgba(216, 233, 245, 0.1);
+  }
+  .btn-secondary:hover::before { transform: translateX(-4px); }
+
+  footer.site-end { text-align: center; padding: 20px 6vw 20px; font-size: 0.76rem; color: rgba(216,233,245,0.3); position: relative; z-index: 1; }
+
+  /* Responsive Mobile Layout */
+  @media (max-width: 860px) {
+    .nav-links { position: fixed; top:0; right:0; height:100vh; width:70vw; background: rgba(3,11,24,0.97); flex-direction: column; justify-content:center; align-items:flex-start; padding: 40px; gap: 26px; transform: translateX(100%); transition: transform 0.35s ease; }
+    .nav-links.open { transform: translateX(0); } .nav-toggle { display:block; }
+  }
+  @media (max-width: 480px) {
+    .nav-button-container { gap: 12px; margin-top: 45px; }
+    .btn-nav { padding: 12px 20px; font-size: 0.88rem; }
+    .panel { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sky"></div><div class="stars"></div><div class="ground-mist"></div>
+
+<nav>
+  <div class="brand">พอร์ตโฟลิโอ<span> · Business Admin</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">หน้าแรก</a></li>
+    <li><a href="personal.html" class="current">เกี่ยวกับฉัน</a></li>
+    <li><a href="education.html">การศึกษา</a></li>
+    <li><a href="activities.html">ผลงาน</a></li>
+    <li><a href="contact.html">ติดต่อ</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle">☰</button>
+</nav>
+
+<main>
+  <h1 class="page-title">เกี่ยวกับฉัน</h1>
+  <p class="page-subtitle">ค้นพบตัวตน ความเชี่ยวชาญ และแนวคิดเพื่อการขับเคลื่อนธุรกิจในอนาคต</p>
+
+  <!-- ส่วนแสดงประวัติและความสามารถ -->
+  <div class="panel talent-card">
+    <div class="talent-header">
+      <span class="talent-icon">💡</span>
+      <div class="talent-title">ความคิดสร้างสรรค์สร้างมูลค่า</div>
+    </div>
+    <div class="talent-desc">
+      ชอบคิดค้นไอเดียธุรกิจใหม่ ๆ ประยุกต์ใช้เทคโนโลยีสมัยใหม่มาแก้ไขปัญหา และสร้างความแตกต่างให้ชิ้นงานน่าสนใจอยู่เสมอ
+    </div>
+  </div>
+
+  <div class="panel talent-card">
+    <div class="talent-header">
+      <span class="talent-icon">🤝</span>
+      <div class="talent-title">การทำงานเป็นทีมและการสื่อสาร</div>
+    </div>
+    <div class="talent-desc">
+      สามารถรับฟังความคิดเห็นที่หลากหลาย บริหารความขัดแย้ง และกระตุ้นให้ทีมก้าวไปสู่เป้าหมายเดียวกันได้อย่างมีประสิทธิภาพ
+    </div>
+  </div>
+
+  <!-- ปุ่มนำทางสำหรับหน้าประวัติส่วนตัว ตกแต่งเสร็จสรรพ -->
+  <div class="nav-button-container">
+    <a href="index.html" class="btn-nav btn-secondary">ย้อนกลับ</a>
+    <a href="education.html" class="btn-nav btn-primary">ถัดไป</a>
+  </div>
+</main>
+
+<footer class="site-end">© 2569 [ชื่อ-นามสกุล] · พอร์ตโฟลิโอคณะบริหารธุรกิจ</footer>
+
+<script>
+  // Mobile navigation toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+</script>
+</body>
+</html>
